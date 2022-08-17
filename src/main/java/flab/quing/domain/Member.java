@@ -1,13 +1,11 @@
 package flab.quing.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
-@Getter
-@Builder
-@AllArgsConstructor
+@Entity
 public class Member {
+    @Id
     private Long id;
     private String name;
     private String password;
