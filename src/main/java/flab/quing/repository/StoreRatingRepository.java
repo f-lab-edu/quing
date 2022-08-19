@@ -1,5 +1,6 @@
 package flab.quing.repository;
 
+import flab.quing.domain.Store;
 import flab.quing.domain.StoreRating;
 import org.springframework.data.jpa.repository.JpaRepository;
 
