@@ -11,10 +11,11 @@ import javax.persistence.ManyToOne;
 @Getter
 @Setter
 public class StoreReview extends BaseEntity {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Member member;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Store store;
+    private Integer rating;
     private String message;
     private String image;
 }
