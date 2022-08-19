@@ -3,6 +3,10 @@ package flab.quing.repository;
 import flab.quing.domain.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends JpaRepository<Long, Member> {
+import java.util.Optional;
+
+public interface MemberRepository extends JpaRepository<Member, Long> {
+    Optional<Member> findByName(String name);
+    Optional<Member> findByPhone(String phone);
 }
 
