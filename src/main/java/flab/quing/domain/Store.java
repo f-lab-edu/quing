@@ -10,8 +10,10 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 @ToString
-public class Member extends BaseEntity{
+public class Store extends BaseEntity {
     private String name;
-    private String password;
     private String phone;
+    private String openingHours;
+    private String address;
+    private String pageLink;
 }
