@@ -1,12 +1,16 @@
 package flab.quing.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Entity
-public class Member {
-    @Id
-    private Long id;
+@Getter
+@Setter
+@ToString
+public class Member extends BaseEntity{
     private String name;
     private String password;
     private String phone;
