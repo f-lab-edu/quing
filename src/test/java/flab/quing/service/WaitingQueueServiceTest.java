@@ -24,35 +24,16 @@ class WaitingQueueServiceTest {
     @Mock
     WaitingQueueRepository waitingQueueRepository;
 
-    Member dummyUser() {
-        Member member = new Member();
-        member.setName("dummy");
-        member.setPassword("12341234");
-        member.setPhone("010-1234-1234");
-        return member;
-    }
 
-    Member dummyUser(String name) {
-        Member member = dummyUser();
-        member.setName(name);
-        return member;
-    }
-
-    Store dummyStore() {
-        Store store = new Store();
-        store.setName("큐잉");
-        return store;
-    }
 
     @Test
     void 대기열등록_성공() {
-        Store store = dummyStore();
-        Member member = dummyUser();
         waitingQueueService = new WaitingQueueService(waitingQueueRepository);
 
-        WaitingQueue waitingQueue = new WaitingQueue();
-        waitingQueue.setMember(member);
-        waitingQueue.setStore(store);
+        Store store = MakeDummy.store();
+        Member member = MakeDummy.member();
+
+        WaitingQueue waitingQueue = MakeDummy.waitingQueue(store, member);
 
         Mockito.when(waitingQueueRepository.save(any()))
                 .thenReturn(waitingQueue);
@@ -62,7 +43,35 @@ class WaitingQueueServiceTest {
         Assertions.assertThat(pushedItem.getMember().getName()).isEqualTo(member.getName());
 
     }
+    static class MakeDummy {
 
+        static Member member() {
+            Member member = new Member();
+            member.setName("dummy");
+            member.setPassword("12341234");
+            member.setPhone("010-1234-1234");
+            return member;
+        }
+
+        static Member member(String name) {
+            Member member = MakeDummy.member();
+            member.setName(name);
+            return member;
+        }
+
+        static Store store() {
+            Store store = new Store();
+            store.setName("큐잉");
+            return store;
+        }
+
+        static WaitingQueue waitingQueue(Store store, Member member) {
+            WaitingQueue waitingQueue = new WaitingQueue();
+            waitingQueue.setStore(store);
+            waitingQueue.setMember(member);
+            return waitingQueue;
+        }
+    }
     //        Mockito.when(waitingQueueRepository.findAllByStore(any()))
 //                .thenReturn(List.of(waitingQueue));
 
