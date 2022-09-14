@@ -1,4 +1,4 @@
-package flab.quing.domain;
+package flab.quing.user;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -10,10 +10,8 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 @ToString
-public class Store extends BaseEntity {
+public class User extends BaseEntity{
     private String name;
+    private String password;
     private String phone;
-    private String openingHours;
-    private String address;
-    private String pageLink;
 }

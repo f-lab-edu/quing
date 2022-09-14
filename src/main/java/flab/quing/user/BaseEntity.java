@@ -1,4 +1,4 @@
-package flab.quing.domain;
+package flab.quing.user;
 
 import lombok.Getter;
 import lombok.Setter;

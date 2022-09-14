@@ -1,4 +1,4 @@
-package flab.quing.domain;
+package flab.quing.waiting;
 
 public enum WaitingQueueStatus {
     WAITING,

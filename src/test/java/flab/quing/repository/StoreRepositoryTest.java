@@ -1,18 +1,18 @@
 package flab.quing.repository;
 
-import flab.quing.domain.Store;
-import org.assertj.core.api.Assertions;
+import flab.quing.store.Store;
+import flab.quing.store.StoreRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class StoreRepositoryTest {
 
-    @Autowired StoreRepository storeRepository;
+    @Autowired
+    StoreRepository storeRepository;
 
     @Test
     void 가게추가_성공(){

@@ -1,7 +1,7 @@
-package flab.quing.repository;
+package flab.quing.store;
 
-import flab.quing.domain.Menu;
-import flab.quing.domain.Store;
+import flab.quing.store.Menu;
+import flab.quing.store.Store;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

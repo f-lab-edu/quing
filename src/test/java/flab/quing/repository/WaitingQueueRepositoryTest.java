@@ -1,9 +1,10 @@
 package flab.quing.repository;
 
-import flab.quing.domain.Member;
-import flab.quing.domain.Store;
-import flab.quing.domain.WaitingQueue;
-import flab.quing.domain.WaitingQueueStatus;
+import flab.quing.user.User;
+import flab.quing.store.Store;
+import flab.quing.waiting.WaitingQueue;
+import flab.quing.waiting.WaitingQueueStatus;
+import flab.quing.waiting.WaitingQueueRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -23,7 +24,7 @@ class WaitingQueueRepositoryTest {
         Store store = new Store();
         store.setName("큐잉상점");
 
-        Member member1 = new Member();
+        User member1 = new User();
         member1.setName("누누");
 
         WaitingQueue waitingQueue = new WaitingQueue();
@@ -42,7 +43,7 @@ class WaitingQueueRepositoryTest {
         Store store = new Store();
         store.setName("큐잉상점");
 
-        Member member1 = new Member();
+        User member1 = new User();
         member1.setName("누누");
 
         WaitingQueue waitingQueue = new WaitingQueue();

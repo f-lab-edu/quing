@@ -1,5 +1,8 @@
-package flab.quing.domain;
+package flab.quing.review;
 
+import flab.quing.store.Store;
+import flab.quing.user.BaseEntity;
+import flab.quing.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,9 +13,9 @@ import javax.persistence.ManyToOne;
 @Entity
 @Getter
 @Setter
-public class StoreReview extends BaseEntity {
+public class Review extends BaseEntity {
     @ManyToOne(cascade = CascadeType.ALL)
-    private Member member;
+    private User member;
     @ManyToOne(cascade = CascadeType.ALL)
     private Store store;
     private Integer rating;

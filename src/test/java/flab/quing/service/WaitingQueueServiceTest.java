@@ -1,9 +1,10 @@
 package flab.quing.service;
 
-import flab.quing.domain.Member;
-import flab.quing.domain.Store;
-import flab.quing.domain.WaitingQueue;
-import flab.quing.repository.WaitingQueueRepository;
+import flab.quing.user.User;
+import flab.quing.store.Store;
+import flab.quing.waiting.WaitingQueue;
+import flab.quing.waiting.WaitingQueueRepository;
+import flab.quing.waiting.WaitingQueueService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +32,7 @@ class WaitingQueueServiceTest {
         waitingQueueService = new WaitingQueueService(waitingQueueRepository);
 
         Store store = MakeDummy.store();
-        Member member = MakeDummy.member();
+        User member = MakeDummy.member();
 
         WaitingQueue waitingQueue = MakeDummy.waitingQueue(store, member);
 
@@ -45,16 +46,16 @@ class WaitingQueueServiceTest {
     }
     static class MakeDummy {
 
-        static Member member() {
-            Member member = new Member();
+        static User member() {
+            User member = new User();
             member.setName("dummy");
             member.setPassword("12341234");
             member.setPhone("010-1234-1234");
             return member;
         }
 
-        static Member member(String name) {
-            Member member = MakeDummy.member();
+        static User member(String name) {
+            User member = MakeDummy.member();
             member.setName(name);
             return member;
         }
@@ -65,7 +66,7 @@ class WaitingQueueServiceTest {
             return store;
         }
 
-        static WaitingQueue waitingQueue(Store store, Member member) {
+        static WaitingQueue waitingQueue(Store store, User member) {
             WaitingQueue waitingQueue = new WaitingQueue();
             waitingQueue.setStore(store);
             waitingQueue.setMember(member);
