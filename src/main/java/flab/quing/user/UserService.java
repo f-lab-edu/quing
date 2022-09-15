@@ -4,10 +4,10 @@ public interface UserService {
 
     User signUp(String name, String phone);
 
-    User login(String name, String phone);
+    User signIn(String name, String phone);
 
-    User storeSignUp(String name, String pw);
+    StoreManager storeSignUp(String name, String password);
 
-    User storeLogin(String name, String pw);
+    StoreManager storeSignIn(String name, String password);
 
 }

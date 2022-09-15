@@ -1,7 +1,6 @@
 package flab.quing.waiting;
 
 import flab.quing.store.Store;
-import flab.quing.waiting.WaitingQueue;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

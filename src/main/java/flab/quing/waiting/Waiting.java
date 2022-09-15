@@ -1,4 +1,4 @@
 package flab.quing.waiting;
 
-public class WaitingUser {
+public class Waiting {
 }

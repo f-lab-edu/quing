@@ -7,18 +7,19 @@ import flab.quing.waiting.WaitingUser;
 import java.util.List;
 
 public interface ReviewService {
-    // ReviewService reviewService;
-    // reviewService.create(aaaa);
 
     Long create(User user, WaitingUser userHistory, Rating rating, String message);
-
+//userid, hitory id, ... request class
     Long update(User user, WaitingUser userHistory, Rating rating, String message);
+//upsert,, .save
+    Long delete(id);
 
-    Long delete();
-
-    Review get();
+    Review get(id);
 
     List<Review> getList(Store store);
+
+
+
 
 
 }
