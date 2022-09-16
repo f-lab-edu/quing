@@ -5,8 +5,9 @@ import flab.quing.user.User;
 import flab.quing.waiting.WaitingUser;
 
 import java.util.List;
-
+//Chanwoo
 public interface ReviewService {
+
 
     Long create(User user, WaitingUser userHistory, Rating rating, String message);
 //userid, hitory id, ... request class

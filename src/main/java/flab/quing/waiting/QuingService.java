@@ -1,43 +1,25 @@
 package flab.quing.waiting;
 
-import flab.quing.store.Menu;
-import flab.quing.store.Store;
+import flab.quing.waiting.dto.WaitingRequest;
+import flab.quing.waiting.dto.WaitingResponse;
 
 import java.util.List;
 
-
+//Chanwoo
 public interface QuingService {
-    //quingService
-    //waiting
-    //List<waitingQueue> ??
-    //waitingItem
-    //reponse, request
 
+    WaitingResponse append(WaitingRequest waitingRequest);
 
-    //input class, optional field
-    Waiting add(String phone, Store store);
-    //append
+    List<WaitingResponse> getList(Long storeId);
 
-    WaitingUser add(String phone, Store store, Menu menu);
+    int countForward(Long waitingId);
 
-    WaitingUser add(WaitingUser user, Store store);
+    void sendMessage(Long waitingId, String msg);
 
-    WaitingUser add(WaitingUser user, Store store, Menu menu);
+    void sendEnterMessage(Long waitingId);
 
-    List<WaitingUser> getList(Store store);
+    void doneWaiting(Long waitingId);
 
-    int countForward(WaitingUser waitingUser);
-
-    void sendMessage(WaitingUser user, String msg);
-//    void sendEnterMessage(){
-//        sendMessage("들어오세요");
-//    }
-
-    void changeDone(WaitingUser user);
-
-    void restoreWaiting(WaitingUser user);//과하다는 느낌
-
-    void cancelWaiting(WaitingUser user);
-
+    void cancelWaiting(Long waitingId);
 
 }
