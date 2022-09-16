@@ -2,7 +2,7 @@ package flab.quing.repository;
 
 import flab.quing.user.User;
 import flab.quing.store.Store;
-import flab.quing.waiting.WaitingQueue;
+import flab.quing.waiting.Waiting;
 import flab.quing.waiting.WaitingQueueStatus;
 import flab.quing.waiting.WaitingQueueRepository;
 import org.junit.jupiter.api.Test;
@@ -27,12 +27,12 @@ class WaitingQueueRepositoryTest {
         User member1 = new User();
         member1.setName("누누");
 
-        WaitingQueue waitingQueue = new WaitingQueue();
+        Waiting waitingQueue = new Waiting();
         waitingQueue.setStore(store);
         waitingQueue.setMember(member1);
 
         waitingQueueRepository.save(waitingQueue);
-        List<WaitingQueue> waitingQueues = waitingQueueRepository.findAllByStore(store);
+        List<Waiting> waitingQueues = waitingQueueRepository.findAllByStore(store);
 
         assertThat(waitingQueues.size()).isEqualTo(1);
         assertThat(waitingQueues.get(0).getMember().getName()).isEqualTo(member1.getName());
@@ -46,13 +46,13 @@ class WaitingQueueRepositoryTest {
         User member1 = new User();
         member1.setName("누누");
 
-        WaitingQueue waitingQueue = new WaitingQueue();
+        Waiting waitingQueue = new Waiting();
         waitingQueue.setStore(store);
         waitingQueue.setMember(member1);
         waitingQueue.setWaitingQueueStatus(WaitingQueueStatus.WAITING);
 
         waitingQueueRepository.save(waitingQueue);
-        List<WaitingQueue> waitingQueues = waitingQueueRepository.findAllByStore(store);
+        List<Waiting> waitingQueues = waitingQueueRepository.findAllByStore(store);
 
         waitingQueues.get(0).setWaitingQueueStatus(WaitingQueueStatus.DONE);
 

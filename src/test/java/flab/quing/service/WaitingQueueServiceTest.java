@@ -2,7 +2,7 @@ package flab.quing.service;
 
 import flab.quing.user.User;
 import flab.quing.store.Store;
-import flab.quing.waiting.WaitingQueue;
+import flab.quing.waiting.Waiting;
 import flab.quing.waiting.WaitingQueueRepository;
 import flab.quing.waiting.WaitingQueueService;
 import org.assertj.core.api.Assertions;
@@ -34,12 +34,12 @@ class WaitingQueueServiceTest {
         Store store = MakeDummy.store();
         User member = MakeDummy.member();
 
-        WaitingQueue waitingQueue = MakeDummy.waitingQueue(store, member);
+        Waiting waitingQueue = MakeDummy.waitingQueue(store, member);
 
         Mockito.when(waitingQueueRepository.save(any()))
                 .thenReturn(waitingQueue);
 
-        WaitingQueue pushedItem = waitingQueueService.pushWaitingQueue(store, member);
+        Waiting pushedItem = waitingQueueService.pushWaitingQueue(store, member);
 
         Assertions.assertThat(pushedItem.getMember().getName()).isEqualTo(member.getName());
 
@@ -66,8 +66,8 @@ class WaitingQueueServiceTest {
             return store;
         }
 
-        static WaitingQueue waitingQueue(Store store, User member) {
-            WaitingQueue waitingQueue = new WaitingQueue();
+        static Waiting waitingQueue(Store store, User member) {
+            Waiting waitingQueue = new Waiting();
             waitingQueue.setStore(store);
             waitingQueue.setMember(member);
             return waitingQueue;

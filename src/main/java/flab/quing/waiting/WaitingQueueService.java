@@ -13,27 +13,27 @@ public class WaitingQueueService {
 
     private final WaitingQueueRepository waitingQueueRepository;
 
-    public WaitingQueue pushWaitingQueue(Store store, User member) {
-        WaitingQueue waitingQueue = new WaitingQueue();
+    public Waiting pushWaitingQueue(Store store, User member) {
+        Waiting waitingQueue = new Waiting();
         waitingQueue.setStore(store);
         waitingQueue.setMember(member);
-        WaitingQueue save = waitingQueueRepository.save(waitingQueue);
+        Waiting saveResult = waitingQueueRepository.save(waitingQueue);
 //        List<WaitingQueue> allByStore = waitingQueueRepository.findAllByStore(store);
 
-        return save;
+        return saveResult;
     }
 
-    public WaitingQueue popWaitingQueue(Store store, User member) {
+    public Waiting popWaitingQueue(Store store, User member) {
 
         return null;
     }
 
-    public List<WaitingQueue> getWaitingQueue(Store store) {
+    public List<Waiting> getWaitingQueue(Store store) {
 
         return null;
     }
 
-    public WaitingQueue updateStatusWaitingQueue(Store store, User member, WaitingQueueStatus status) {
+    public Waiting updateStatusWaitingQueue(Store store, User member, WaitingQueueStatus status) {
 
         return null;
     }
