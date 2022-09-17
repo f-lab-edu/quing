@@ -6,7 +6,7 @@ public class ReviewResponse {
     private String userName;
     private Long storeId;
     private String storeName;
-    private float rating;
+    private Float rating;
     private String message;
     private String image;
 }
