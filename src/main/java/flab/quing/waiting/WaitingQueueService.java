@@ -14,27 +14,26 @@ public class WaitingQueueService {
     private final WaitingQueueRepository waitingQueueRepository;
 
     public Waiting pushWaitingQueue(Store store, User member) {
-        Waiting waitingQueue = new Waiting();
-        waitingQueue.setStore(store);
-        waitingQueue.setMember(member);
-        Waiting saveResult = waitingQueueRepository.save(waitingQueue);
-//        List<WaitingQueue> allByStore = waitingQueueRepository.findAllByStore(store);
+        Waiting waitingQueue = Waiting.builder()
+                .store(store)
+                .member(member)
+                .build();
 
-        return saveResult;
+        return waitingQueueRepository.save(waitingQueue);
     }
 
     public Waiting popWaitingQueue(Store store, User member) {
 
-        return null;
+        throw new UnsupportedOperationException("Not Implemented, yet");
     }
 
     public List<Waiting> getWaitingQueue(Store store) {
 
-        return null;
+        throw new UnsupportedOperationException("Not Implemented, yet");
     }
 
     public Waiting updateStatusWaitingQueue(Store store, User member, WaitingQueueStatus status) {
 
-        return null;
+        throw new UnsupportedOperationException("Not Implemented, yet");
     }
 }
