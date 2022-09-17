@@ -1,26 +1,22 @@
 package flab.quing.review;
 
-import flab.quing.store.Store;
-import flab.quing.user.User;
-import flab.quing.waiting.WaitingUser;
+
+import flab.quing.review.dto.ReviewRequest;
+import flab.quing.review.dto.ReviewResponse;
 
 import java.util.List;
+
 //Chanwoo
 public interface ReviewService {
 
+    ReviewResponse create(ReviewRequest reviewRequest);
 
-    Long create(User user, WaitingUser userHistory, Rating rating, String message);
-//userid, hitory id, ... request class
-    Long update(User user, WaitingUser userHistory, Rating rating, String message);
-//upsert,, .save
-    Long delete(id);
+    ReviewResponse update(ReviewRequest reviewRequest);
 
-    Review get(id);
+    ReviewResponse hide(Long reviewId);
 
-    List<Review> getList(Store store);
+    ReviewResponse get(Long reviewId);
 
-
-
-
+    List<ReviewResponse> getList(Long storeId);
 
 }

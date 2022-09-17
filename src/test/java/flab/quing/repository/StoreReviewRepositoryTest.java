@@ -3,7 +3,7 @@ package flab.quing.repository;
 import flab.quing.user.User;
 import flab.quing.store.Store;
 import flab.quing.review.Review;
-import flab.quing.review.StoreReviewRepository;
+import flab.quing.review.ReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 class StoreReviewRepositoryTest {
 
     @Autowired
-    StoreReviewRepository storeReviewRepository;
+    ReviewRepository storeReviewRepository;
 
     @Test
     void 가게리뷰등록_성공(){

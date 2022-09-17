@@ -14,5 +14,5 @@ import javax.persistence.ManyToOne;
 public class Rating extends BaseEntity {
     @ManyToOne
     private Store store;
-    private Integer rating;
+    private Float rating;
 }

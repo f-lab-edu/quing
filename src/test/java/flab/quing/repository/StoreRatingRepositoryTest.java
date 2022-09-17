@@ -4,8 +4,8 @@ import flab.quing.user.User;
 import flab.quing.store.Store;
 import flab.quing.review.Rating;
 import flab.quing.review.Review;
-import flab.quing.review.StoreRatingRepository;
-import flab.quing.review.StoreReviewRepository;
+import flab.quing.review.RatingRepository;
+import flab.quing.review.ReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,12 +19,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 class StoreRatingRepositoryTest {
 
     @Autowired
-    StoreRatingRepository storeRatingRepository;
+    RatingRepository storeRatingRepository;
     @Autowired
-    StoreReviewRepository storeReviewRepository;
+    ReviewRepository storeReviewRepository;
 
     @Test
-    void 가게별점등록_성공(){
+    void 가게별점등록_성공() {
         //given
         Store store = new Store();
         store.setName("추억닭발");
@@ -47,9 +47,9 @@ class StoreRatingRepositoryTest {
         storeReviewRepository.save(storeReview);
 
         List<Review> storeReviews = storeReviewRepository.findAllByStore(store);
-        Integer rating=0;
-        for (Review review:
-             storeReviews) {
+        Float rating = 0f;
+        for (Review review :
+                storeReviews) {
             rating += review.getRating();
         }
         rating /= storeReviews.size();
