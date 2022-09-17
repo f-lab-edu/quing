@@ -14,7 +14,7 @@ public interface QuingService {
 
     Integer countForward(Long waitingId);
 
-    void sendMessage(Long waitingId, String msg);
+    void sendMessage(Long waitingId, String message);
 
     void sendEnterMessage(Long waitingId);
 
