@@ -4,6 +4,6 @@ public class WaitingResponse {
 
     private String storeName;
     private String userName;
-    private String phone;
-    private String countForward;
+    private String phoneNumber;
+    private Integer countForward;
 }
