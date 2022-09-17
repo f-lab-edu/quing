@@ -1,17 +1,25 @@
 package flab.quing.store;
 
-import flab.quing.store.dto.AddMenuRequest;
-import flab.quing.store.dto.AddMenuResponse;
+import flab.quing.store.dto.MenuRequest;
 import flab.quing.store.dto.MenuResponse;
+import flab.quing.store.dto.StoreRequest;
+import flab.quing.store.dto.StoreResponse;
 
 import java.util.List;
 
 public interface StoreService {
 
-    List<Store> getStoreList();
+    List<StoreResponse> findByStoreName(String name);
+
+    StoreResponse get(Long storeId);
+
+    StoreResponse update(StoreRequest storeRequest);
 
     List<MenuResponse> getMenuList(Long storeId);
 
-    AddMenuResponse add(AddMenuRequest menu);
-    //200 ok, 등록된 Menu의 정보, dto, HttpResponse<dto>, AddMenuResponse
+    MenuResponse add(MenuRequest menu);
+
+    MenuResponse hide(Long menuId);
+
+    MenuResponse update(MenuRequest menuRequest);
 }

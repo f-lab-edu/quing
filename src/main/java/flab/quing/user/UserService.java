@@ -1,13 +1,18 @@
 package flab.quing.user;
 
+import flab.quing.user.dto.StoreManagerResponse;
+import flab.quing.user.dto.StoreMangerRequest;
+import flab.quing.user.dto.UserRequest;
+import flab.quing.user.dto.UserResponse;
+
 public interface UserService {
 
-    User signUp(String name, String phone);
+    UserResponse signUp(UserRequest userRequest);
 
-    User signIn(String name, String phone);
+    UserResponse signIn(String name, String phoneNumber);
 
-    StoreManager storeSignUp(String name, String password);
+    StoreManagerResponse storeSignUp(StoreMangerRequest storeMangerRequest);
 
-    StoreManager storeSignIn(String name, String password);
+    StoreManagerResponse storeSignIn(String name, String password);
 
 }

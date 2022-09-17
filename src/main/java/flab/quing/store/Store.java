@@ -12,9 +12,11 @@ import javax.persistence.Entity;
 @Setter
 @ToString
 public class Store extends BaseEntity {
+
     private String name;
-    private String phone;
-    private String openingHours;
+    private String phoneNumber;
+    private String openStatus;
+    private String openHours;
     private String address;
     private String pageLink;
 }
