@@ -13,10 +13,10 @@ public interface ReviewService {
 
     ReviewResponse update(ReviewRequest reviewRequest);
 
-    ReviewResponse hide(Long reviewId);
+    ReviewResponse hide(long reviewId);
 
-    ReviewResponse get(Long reviewId);
+    ReviewResponse get(long reviewId);
 
-    List<ReviewResponse> getList(Long storeId);
+    List<ReviewResponse> getList(long storeId);
 
 }

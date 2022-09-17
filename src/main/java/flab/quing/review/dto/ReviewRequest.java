@@ -1,10 +1,21 @@
 package flab.quing.review.dto;
 
+import lombok.*;
+
+@Data
+@Setter(AccessLevel.NONE)
+@Builder
 public class ReviewRequest {
 
-    private Long userId;
-    private Long waitingId;
-    private Integer rating;
+    @NonNull
+    private long userId;
+
+    @NonNull
+    private long waitingId;
+
+    private int rating;
+
     private String message;
+
     private String image;
 }

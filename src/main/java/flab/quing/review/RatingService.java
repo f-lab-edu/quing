@@ -4,7 +4,7 @@ import flab.quing.review.dto.RatingResponse;
 
 public interface RatingService {
 
-    RatingResponse getRating(Long storeId);
+    RatingResponse getRating(long storeId);
 
     void updateAll();
 

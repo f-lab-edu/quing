@@ -2,17 +2,21 @@ package flab.quing.review;
 
 import flab.quing.store.Store;
 import flab.quing.user.BaseEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+@Data
+@Setter(AccessLevel.NONE)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Getter
-@Setter
 public class Rating extends BaseEntity {
+
     @ManyToOne
     private Store store;
-    private Float rating;
+
+    private float rating;
 }
