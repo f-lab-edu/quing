@@ -1,19 +1,20 @@
 package flab.quing.store.dto;
 
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Data
+@Setter(AccessLevel.NONE)
 public class MenuResponse {
 
-    private Long menuId;
+    private long menuId;
+
     private String name;
-    private String image;
+
+    private String imageUrl;
+
     private Integer price;
 
-    public MenuResponse(Long menuId, String name, String image, Integer price) {
-        this.menuId = menuId;
-        this.name = name;
-        this.image = image;
-        this.price = price;
-    }
 }

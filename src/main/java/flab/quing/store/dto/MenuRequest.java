@@ -1,18 +1,22 @@
 package flab.quing.store.dto;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter
-@NoArgsConstructor
+@Data
+@Setter(AccessLevel.NONE)
 @Builder
-@AllArgsConstructor
 public class MenuRequest {
 
     private String name;
-    private String image;
+
+    private String imageUrl;
+
     private Integer price;
 
 }

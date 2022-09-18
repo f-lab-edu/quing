@@ -1,17 +1,18 @@
 package flab.quing.user.dto;
 
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Data
+@Setter(AccessLevel.NONE)
 public class UserResponse {
 
-    private Long userId;
+    private long userId;
+
     private String phoneNumber;
+
     private String name;
 
-    public UserResponse(Long userId, String phoneNumber, String name) {
-        this.userId = userId;
-        this.phoneNumber = phoneNumber;
-        this.name = name;
-    }
 }
