@@ -23,12 +23,12 @@ import javax.persistence.ManyToOne;
 public class Waiting extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private User member;
+    private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Store store;
 
-    private Integer callCount;
+    private int callCount;
 
     private WaitingQueueStatus waitingQueueStatus;
 
