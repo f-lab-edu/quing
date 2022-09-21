@@ -1,18 +1,22 @@
 package flab.quing.user;
 
-import lombok.Getter;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Entity;
 
+@Data
+@Setter(AccessLevel.NONE)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Getter
-@Setter
-@ToString
 public class User extends BaseEntity{
     private String name;
-    private String password;
     private String phone;
 }
 

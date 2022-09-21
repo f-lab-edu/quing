@@ -1,16 +1,21 @@
 package flab.quing.store;
 
 import flab.quing.user.BaseEntity;
-import lombok.Getter;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.Entity;
 
+@Data
+@Setter(AccessLevel.NONE)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Getter
-@Setter
-@ToString
 public class Store extends BaseEntity {
 
     private String name;
