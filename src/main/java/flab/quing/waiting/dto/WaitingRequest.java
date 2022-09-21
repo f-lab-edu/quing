@@ -1,16 +1,19 @@
 package flab.quing.waiting.dto;
 
-import lombok.*;
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Setter;
 
 @Data
 @Setter(AccessLevel.NONE)
 @Builder
 public class WaitingRequest {
 
-    private Long userId;
+    private long userId;
 
     private String phoneNumber;
 
-    @NonNull
-    private Long storeId;
+    private long storeId;
 }

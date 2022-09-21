@@ -1,9 +1,14 @@
 package flab.quing.waiting;
 
+import flab.quing.store.Store;
 import flab.quing.user.BaseEntity;
 import flab.quing.user.User;
-import flab.quing.store.Store;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -13,7 +18,7 @@ import javax.persistence.ManyToOne;
 @Setter(AccessLevel.NONE)
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Waiting extends BaseEntity {
 

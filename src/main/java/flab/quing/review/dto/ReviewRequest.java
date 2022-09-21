@@ -1,16 +1,18 @@
 package flab.quing.review.dto;
 
-import lombok.*;
+
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Setter;
 
 @Data
 @Setter(AccessLevel.NONE)
 @Builder
 public class ReviewRequest {
 
-    @NonNull
     private long userId;
 
-    @NonNull
     private long waitingId;
 
     private int rating;
