@@ -1,7 +1,8 @@
 package flab.quing.repository;
 
-import flab.quing.domain.Menu;
-import flab.quing.domain.Store;
+import flab.quing.store.Menu;
+import flab.quing.store.Store;
+import flab.quing.store.MenuRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

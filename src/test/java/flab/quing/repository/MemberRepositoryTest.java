@@ -1,6 +1,7 @@
 package flab.quing.repository;
 
-import flab.quing.domain.Member;
+import flab.quing.user.User;
+import flab.quing.user.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -15,7 +16,7 @@ class MemberRepositoryTest {
 
     @Test
     void 새로운사용자추가_성공() {
-        Member member = new Member();
+        User member = new User();
         member.setName("chanwoo");
         member.setPassword("chanwoo1234");
         member.setPhone("010-0000-0000");

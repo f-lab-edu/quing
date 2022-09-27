@@ -1,7 +1,4 @@
-package flab.quing.domain;
-
-import lombok.Getter;
-import lombok.Setter;
+package flab.quing.user;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,8 +7,6 @@ import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@Setter
-@Getter
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,9 +1,9 @@
 package flab.quing.repository;
 
-import flab.quing.domain.Member;
-import flab.quing.domain.Store;
-import flab.quing.domain.StoreReview;
-import org.junit.jupiter.api.Assertions;
+import flab.quing.user.User;
+import flab.quing.store.Store;
+import flab.quing.review.Review;
+import flab.quing.review.ReviewRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -11,12 +11,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 class StoreReviewRepositoryTest {
 
-    @Autowired StoreReviewRepository storeReviewRepository;
+    @Autowired
+    ReviewRepository storeReviewRepository;
 
     @Test
     void 가게리뷰등록_성공(){
@@ -28,12 +28,12 @@ class StoreReviewRepositoryTest {
         store.setPhone("010-1111-2222");
         store.setPageLink("http://test.co.kr");
 
-        Member member = new Member();
+        User member = new User();
         member.setName("yuseon");
         member.setPhone("010-1234-1111");
         member.setPassword("1q2w3e4r");
 
-        StoreReview storeReview = new StoreReview();
+        Review storeReview = new Review();
         storeReview.setStore(store);
         storeReview.setMember(member);
         storeReview.setImage("food.jpg");
@@ -43,7 +43,7 @@ class StoreReviewRepositoryTest {
         storeReviewRepository.save(storeReview);
 
         //then
-        List<StoreReview> storeReviews = storeReviewRepository.findAllByStore(store);
+        List<Review> storeReviews = storeReviewRepository.findAllByStore(store);
         assertThat(storeReviews.size()).isEqualTo(1);
         assertThat(storeReviews.get(0).getMessage()).isEqualTo(storeReview.getMessage());
         assertThat(storeReviews.get(0).getMessage()).isEqualTo("맛있어요!");
