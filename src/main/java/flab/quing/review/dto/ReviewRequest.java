@@ -19,5 +19,5 @@ public class ReviewRequest {
 
     private String message;
 
-    private String image;
+    private String imageUrl;
 }

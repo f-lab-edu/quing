@@ -22,7 +22,7 @@ public class ReviewResponse {
 
     private String message;
 
-    private String image;
+    private String imageUrl;
 
 }
 
