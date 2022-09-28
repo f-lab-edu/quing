@@ -1,5 +1,7 @@
 package flab.quing.review;
 
+import flab.quing.review.dto.ReviewRequest;
+import flab.quing.review.dto.ReviewResponse;
 import flab.quing.store.Store;
 import flab.quing.user.BaseEntity;
 import flab.quing.user.User;
@@ -32,6 +34,27 @@ public class Review extends BaseEntity {
 
     private String message;
 
-    private String image;
+    private String imageUrl;
+
+    public void of(ReviewRequest reviewRequest) {
+
+        rating = reviewRequest.getRating();
+        message = reviewRequest.getMessage();
+        imageUrl = reviewRequest.getImageUrl();
+
+    }
+
+    public ReviewResponse toResponse() {
+        ReviewResponse reviewResponse = ReviewResponse.builder()
+                .userId(user.getId())
+                .userName(user.getName())
+                .storeId(store.getId())
+                .storeName(store.getName())
+                .rating(rating)
+                .message(message)
+                .imageUrl(imageUrl)
+                .build();
+        return reviewResponse;
+    }
 
 }
