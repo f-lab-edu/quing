@@ -2,9 +2,9 @@ package flab.quing.review;
 
 import flab.quing.review.dto.ReviewRequest;
 import flab.quing.review.dto.ReviewResponse;
-import flab.quing.store.Store;
 import flab.quing.user.BaseEntity;
 import flab.quing.user.User;
+import flab.quing.waiting.Waiting;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +28,7 @@ public class Review extends BaseEntity {
     private User user;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private Store store;
+    private Waiting waiting;
 
     private int rating;
 
@@ -48,8 +48,8 @@ public class Review extends BaseEntity {
         ReviewResponse reviewResponse = ReviewResponse.builder()
                 .userId(user.getId())
                 .userName(user.getName())
-                .storeId(store.getId())
-                .storeName(store.getName())
+                .storeId(waiting.getStore().getId())
+                .storeName(waiting.getStore().getName())
                 .rating(rating)
                 .message(message)
                 .imageUrl(imageUrl)

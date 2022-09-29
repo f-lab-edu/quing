@@ -17,6 +17,8 @@ public interface ReviewService {
 
     ReviewResponse get(long reviewId);
 
+    ReviewResponse find(long waitingId);
+
     List<ReviewResponse> getList(long storeId);
 
 }

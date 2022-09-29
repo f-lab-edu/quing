@@ -20,4 +20,9 @@ public class BaseEntity {
     private LocalDateTime created_at = LocalDateTime.now();
     private LocalDateTime updated_at;
     private LocalDateTime deleted_at;
+
+    public void hide() {
+        this.setDeleted(true);
+        this.setDeleted_at(LocalDateTime.now());
+    }
 }
