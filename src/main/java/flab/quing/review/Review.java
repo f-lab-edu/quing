@@ -2,7 +2,7 @@ package flab.quing.review;
 
 import flab.quing.review.dto.ReviewRequest;
 import flab.quing.review.dto.ReviewResponse;
-import flab.quing.user.BaseEntity;
+import flab.quing.common.BaseEntity;
 import flab.quing.user.User;
 import flab.quing.waiting.Waiting;
 import lombok.AccessLevel;

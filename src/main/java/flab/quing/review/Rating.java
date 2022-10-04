@@ -1,7 +1,7 @@
 package flab.quing.review;
 
 import flab.quing.store.Store;
-import flab.quing.user.BaseEntity;
+import flab.quing.common.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

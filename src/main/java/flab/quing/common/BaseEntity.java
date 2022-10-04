@@ -1,4 +1,4 @@
-package flab.quing.user;
+package flab.quing.common;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private boolean deleted;
     private LocalDateTime created_at = LocalDateTime.now();
     private LocalDateTime updated_at;

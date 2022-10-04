@@ -1,7 +1,7 @@
 package flab.quing.waiting;
 
 import flab.quing.store.Store;
-import flab.quing.user.BaseEntity;
+import flab.quing.common.BaseEntity;
 import flab.quing.user.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
