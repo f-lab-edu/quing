@@ -72,6 +72,6 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public List<ReviewResponse> getList(long storeId) {
         Store store = storeRepository.findById(storeId).get();
-        return reviewRepository.findAllByStoreAndDeletedIsFalse(store).stream().map(Review::toResponse).collect(Collectors.toList());
+        return reviewRepository.findAllByWaitingStoreAndDeletedIsFalse(store).stream().map(Review::toResponse).collect(Collectors.toList());
     }
 }

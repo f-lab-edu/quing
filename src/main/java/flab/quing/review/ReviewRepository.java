@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    List<Review> findAllByStoreAndDeletedIsFalse(Store store);
+    List<Review> findAllByWaitingStoreAndDeletedIsFalse(Store store);
 
     Optional<Review> findByWaitingOrderByIdDesc(Waiting waiting);
 
