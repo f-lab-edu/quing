@@ -15,8 +15,8 @@ import javax.persistence.Entity;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class User extends BaseEntity{
+@Entity(name = "users")
+public class User extends BaseEntity {
     private String name;
     private String phone;
 }
