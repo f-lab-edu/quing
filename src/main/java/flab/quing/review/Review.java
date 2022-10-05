@@ -1,8 +1,8 @@
 package flab.quing.review;
 
+import flab.quing.common.BaseEntity;
 import flab.quing.review.dto.ReviewRequest;
 import flab.quing.review.dto.ReviewResponse;
-import flab.quing.common.BaseEntity;
 import flab.quing.user.User;
 import flab.quing.waiting.Waiting;
 import lombok.AccessLevel;
@@ -36,11 +36,15 @@ public class Review extends BaseEntity {
 
     private String imageUrl;
 
-    public void of(ReviewRequest reviewRequest) {
-        rating = reviewRequest.getRating();
-        message = reviewRequest.getMessage();
-        imageUrl = reviewRequest.getImageUrl();
 
+    public static Review of(User user, Waiting waiting, ReviewRequest reviewRequest) {
+        return Review.builder()
+                .user(user)
+                .waiting(waiting)
+                .rating(reviewRequest.getRating())
+                .message(reviewRequest.getMessage())
+                .imageUrl(reviewRequest.getImageUrl())
+                .build();
     }
 
     public ReviewResponse toResponse() {
@@ -55,6 +59,4 @@ public class Review extends BaseEntity {
                 .build();
         return reviewResponse;
     }
-
 }
-

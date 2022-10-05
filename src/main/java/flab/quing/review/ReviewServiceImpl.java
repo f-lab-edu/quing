@@ -27,15 +27,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public ReviewResponse create(ReviewRequest reviewRequest) {
         Waiting waiting = waitingRepository.findById(reviewRequest.getWaitingId()).get();
-
         User user = waiting.getUser();
-
-        Review review = Review.builder()
-                .user(user)
-                .waiting(waiting)
-                .build();
-        review.of(reviewRequest);
-
+        Review review = Review.of(user, waiting, reviewRequest);
 
         Review save = reviewRepository.save(review);
         return save.toResponse();

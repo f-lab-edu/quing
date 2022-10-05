@@ -69,19 +69,13 @@ class ReviewServiceImplTest {
                 .imageUrl("https://user-images.githubusercontent.com/22807730/191471325-862134f8-6d8f-4062-9b12-ecd541a6323a.png")
                 .build();
 
-        Review review = Review.builder()
-                .user(user)
-                .waiting(waiting)
-                .build();
-        review.of(reviewRequest);
+        Review review = Review.of(user, waiting, reviewRequest);
         review.setId(1L);
 
-
-        //when
         when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting));
-
         when(reviewRepository.save(any(Review.class))).thenReturn(review);
 
+        //when
         ReviewResponse reviewResponse = reviewService.create(reviewRequest);
 
         //then
