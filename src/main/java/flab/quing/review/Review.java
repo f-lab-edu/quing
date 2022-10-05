@@ -37,7 +37,6 @@ public class Review extends BaseEntity {
     private String imageUrl;
 
     public void of(ReviewRequest reviewRequest) {
-
         rating = reviewRequest.getRating();
         message = reviewRequest.getMessage();
         imageUrl = reviewRequest.getImageUrl();
@@ -58,3 +57,4 @@ public class Review extends BaseEntity {
     }
 
 }
+
