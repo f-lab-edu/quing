@@ -10,6 +10,8 @@ import lombok.Setter;
 @Builder
 public class StoreRequest {
 
+    private long userId;
+
     private String name;
 
     private String phoneNumber;
