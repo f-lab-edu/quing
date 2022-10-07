@@ -20,7 +20,7 @@ public class StoreManager extends BaseEntity {
 
     private String loginId;
 
-    private String password;
+    private String encryptedPassword;
 
     private String phoneNumber;
 
