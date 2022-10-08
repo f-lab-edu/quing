@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Setter;
 
+import java.util.List;
+
 @Data
 @Setter(AccessLevel.NONE)
 @Builder
@@ -22,6 +24,5 @@ public class ReviewResponse {
 
     private String message;
 
-    private String imageUrl;
-
+    private List<String> imageUrls;
 }

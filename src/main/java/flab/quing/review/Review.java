@@ -13,8 +13,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.List;
 
 @Data
 @Setter(AccessLevel.NONE)
@@ -34,7 +36,8 @@ public class Review extends BaseEntity {
 
     private String message;
 
-    private String imageUrl;
+    @ElementCollection
+    private List<String> imageUrls;
 
 
     public static Review of(User user, Waiting waiting, ReviewRequest reviewRequest) {
@@ -43,7 +46,7 @@ public class Review extends BaseEntity {
                 .waiting(waiting)
                 .rating(reviewRequest.getRating())
                 .message(reviewRequest.getMessage())
-                .imageUrl(reviewRequest.getImageUrl())
+                .imageUrls(reviewRequest.getImageUrls())
                 .build();
     }
 
@@ -55,7 +58,7 @@ public class Review extends BaseEntity {
                 .storeName(waiting.getStore().getName())
                 .rating(rating)
                 .message(message)
-                .imageUrl(imageUrl)
+                .imageUrls(imageUrls)
                 .build();
         return reviewResponse;
     }
