@@ -13,11 +13,10 @@ import javax.persistence.Entity;
 @Data
 @Setter(AccessLevel.NONE)
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity(name = "users")
 public class User extends BaseEntity {
     private String name;
     private String phone;
 }
-

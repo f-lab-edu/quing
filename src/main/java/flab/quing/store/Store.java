@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 @Data
 @Setter(AccessLevel.NONE)
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 public class Store extends BaseEntity {
