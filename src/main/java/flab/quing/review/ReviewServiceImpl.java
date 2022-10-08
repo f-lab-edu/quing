@@ -2,9 +2,11 @@ package flab.quing.review;
 
 import flab.quing.review.dto.ReviewRequest;
 import flab.quing.review.dto.ReviewResponse;
+import flab.quing.store.NoSuchStoreException;
 import flab.quing.store.Store;
 import flab.quing.store.StoreRepository;
 import flab.quing.user.User;
+import flab.quing.waiting.NoSuchWaitingException;
 import flab.quing.waiting.Waiting;
 import flab.quing.waiting.WaitingRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     @Override
     public ReviewResponse create(ReviewRequest reviewRequest) {
-        Waiting waiting = waitingRepository.findById(reviewRequest.getWaitingId()).get();
+        Waiting waiting = waitingRepository.findById(reviewRequest.getWaitingId()).orElseThrow(() -> new NoSuchWaitingException());
         User user = waiting.getUser();
         Review review = Review.of(user, waiting, reviewRequest);
 
@@ -37,8 +39,8 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     @Override
     public ReviewResponse update(ReviewRequest reviewRequest) {
-        Waiting waiting = waitingRepository.findById(reviewRequest.getWaitingId()).get();
-        Review review = reviewRepository.findByWaitingOrderByIdDesc(waiting).get();
+        Waiting waiting = waitingRepository.findById(reviewRequest.getWaitingId()).orElseThrow(() -> new NoSuchWaitingException());
+        Review review = reviewRepository.findTopByWaitingOrderByIdDesc(waiting).orElseThrow(() -> new NoSuchReviewException());
         hide(review.getId());
         return create(reviewRequest);
     }
@@ -46,25 +48,25 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     @Override
     public ReviewResponse hide(long reviewId) {
-        Review review = reviewRepository.findById(reviewId).get();
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoSuchReviewException());
         review.hide();
         return review.toResponse();
     }
 
     @Override
     public ReviewResponse get(long reviewId) {
-        return reviewRepository.findById(reviewId).get().toResponse();
+        return reviewRepository.findById(reviewId).orElseThrow(() -> new NoSuchReviewException()).toResponse();
     }
 
     @Override
     public ReviewResponse find(long waitingId) {
-        Waiting waiting = waitingRepository.findById(waitingId).get();
-        return reviewRepository.findByWaitingOrderByIdDesc(waiting).get().toResponse();
+        Waiting waiting = waitingRepository.findById(waitingId).orElseThrow(() -> new NoSuchWaitingException());
+        return reviewRepository.findTopByWaitingOrderByIdDesc(waiting).orElseThrow(() -> new NoSuchReviewException()).toResponse();
     }
 
     @Override
     public List<ReviewResponse> getList(long storeId) {
-        Store store = storeRepository.findById(storeId).get();
+        Store store = storeRepository.findById(storeId).orElseThrow(() -> new NoSuchStoreException());
         return reviewRepository.findAllByWaitingStoreAndDeletedIsFalse(store).stream()
                 .map(Review::toResponse)
                 .collect(Collectors.toList());
