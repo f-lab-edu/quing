@@ -54,14 +54,15 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ReviewResponse get(long reviewId) {
-        return reviewRepository.findById(reviewId).orElseThrow(() -> new NoSuchReviewException()).toResponse();
+    public ReviewResponse getByReviewId(long reviewId) {
+        return reviewRepository.findById(reviewId)
+                .orElseThrow(NoSuchReviewException::new).toResponse();
     }
 
     @Override
-    public ReviewResponse find(long waitingId) {
-        Waiting waiting = waitingRepository.findById(waitingId).orElseThrow(() -> new NoSuchWaitingException());
-        return reviewRepository.findTopByWaitingOrderByIdDesc(waiting).orElseThrow(() -> new NoSuchReviewException()).toResponse();
+    public ReviewResponse getByWaitingId(long waitingId) {
+        return reviewRepository.findTopByWaitingIdOrderByIdDesc(waitingId)
+                .orElseThrow(NoSuchReviewException::new).toResponse();
     }
 
     @Override
