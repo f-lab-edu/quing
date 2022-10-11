@@ -2,10 +2,6 @@ package flab.quing.review;
 
 import flab.quing.review.dto.ReviewRequest;
 import flab.quing.review.dto.ReviewResponse;
-import flab.quing.store.NoSuchStoreException;
-import flab.quing.store.Store;
-import flab.quing.store.StoreRepository;
-import flab.quing.user.User;
 import flab.quing.waiting.NoSuchWaitingException;
 import flab.quing.waiting.Waiting;
 import flab.quing.waiting.WaitingRepository;
@@ -21,16 +17,15 @@ import java.util.stream.Collectors;
 public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final StoreRepository storeRepository;
     private final WaitingRepository waitingRepository;
 
 
     @Transactional
     @Override
     public ReviewResponse create(ReviewRequest reviewRequest) {
-        Waiting waiting = waitingRepository.findById(reviewRequest.getWaitingId()).orElseThrow(() -> new NoSuchWaitingException());
-        User user = waiting.getUser();
-        Review review = Review.of(user, waiting, reviewRequest);
+        Waiting waiting = waitingRepository.findById(reviewRequest.getWaitingId())
+                .orElseThrow(NoSuchWaitingException::new);
+        Review review = Review.of(waiting.getUser(), waiting, reviewRequest);
 
         Review save = reviewRepository.save(review);
         return save.toResponse();
@@ -39,16 +34,17 @@ public class ReviewServiceImpl implements ReviewService {
     @Transactional
     @Override
     public ReviewResponse update(ReviewRequest reviewRequest) {
-        Waiting waiting = waitingRepository.findById(reviewRequest.getWaitingId()).orElseThrow(() -> new NoSuchWaitingException());
-        Review review = reviewRepository.findTopByWaitingOrderByIdDesc(waiting).orElseThrow(() -> new NoSuchReviewException());
-        hide(review.getId());
-        return create(reviewRequest);
+        Review review = reviewRepository.findTopByWaitingIdOrderByIdDesc(reviewRequest.getWaitingId())
+                .orElseThrow(NoSuchReviewException::new);
+        review.updateFrom(reviewRequest);
+        return review.toResponse();
     }
 
     @Transactional
     @Override
     public ReviewResponse hide(long reviewId) {
-        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new NoSuchReviewException());
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(NoSuchReviewException::new);
         review.hide();
         return review.toResponse();
     }
@@ -67,8 +63,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<ReviewResponse> getList(long storeId) {
-        Store store = storeRepository.findById(storeId).orElseThrow(() -> new NoSuchStoreException());
-        return reviewRepository.findAllByWaitingStoreAndDeletedIsFalse(store).stream()
+        return reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(storeId)
+                .stream()
                 .map(Review::toResponse)
                 .collect(Collectors.toList());
     }

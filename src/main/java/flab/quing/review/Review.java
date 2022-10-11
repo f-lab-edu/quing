@@ -62,4 +62,10 @@ public class Review extends BaseEntity {
                 .build();
         return reviewResponse;
     }
+
+    public void updateFrom(ReviewRequest reviewRequest) {
+        rating = reviewRequest.getRating();
+        message = reviewRequest.getMessage();
+        imageUrls = reviewRequest.getImageUrls();
+    }
 }
