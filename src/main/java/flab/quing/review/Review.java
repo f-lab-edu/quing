@@ -1,6 +1,6 @@
 package flab.quing.review;
 
-import flab.quing.common.BaseEntity;
+import flab.quing.entity.BaseEntity;
 import flab.quing.review.dto.ReviewRequest;
 import flab.quing.review.dto.ReviewResponse;
 import flab.quing.user.User;

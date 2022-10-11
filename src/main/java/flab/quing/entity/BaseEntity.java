@@ -1,4 +1,4 @@
-package flab.quing.common;
+package flab.quing.entity;
 
 import lombok.Getter;
 import lombok.Setter;
