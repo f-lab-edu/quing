@@ -91,14 +91,10 @@ class ReviewServiceImplTest {
         assertThat(reviewResponse.getUserName()).isEqualTo("김땡땡");
         assertThat(reviewResponse.getStoreName()).isEqualTo("가게1");
         assertThat(reviewResponse.getMessage()).isEqualTo("그냥그래요");
-
     }
 
     @Test
     void update() {
-        //이전 기록이 deleted가 잘 되는지(안나오는지)
-        //수정한 내역이 새로 잘 만들어지는지
-
         User user = DummyDataMaker.user();
         Store store = DummyDataMaker.store();
         Waiting waiting = DummyDataMaker.waiting(user, store);
@@ -120,13 +116,12 @@ class ReviewServiceImplTest {
 
         //create
         when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting));
-        when(reviewRepository.findById(anyLong())).thenReturn(Optional.of(review1));
         when(reviewRepository.save(any(Review.class)))
                 .thenReturn(review1)    // 1st create
                 .thenReturn(review2);   // 2nd create
 
         //update
-        when(reviewRepository.findTopByWaitingOrderByIdDesc(waiting)).thenReturn(Optional.of(review1));
+        when(reviewRepository.findTopByWaitingIdOrderByIdDesc(waiting.getId())).thenReturn(Optional.of(review1));
 
 
         ReviewResponse createResponse = reviewService.create(reviewRequest1);
@@ -150,8 +145,6 @@ class ReviewServiceImplTest {
         System.out.println("response = " + response);
         System.out.println("review = " + review.isDeleted());
         Assertions.assertThat(review.isDeleted()).isEqualTo(true);
-
-
     }
 
     @Test
@@ -164,35 +157,29 @@ class ReviewServiceImplTest {
 
         when(reviewRepository.findById(anyLong())).thenReturn(Optional.of(review));
 
-        ReviewResponse reviewResponse = reviewService.get(review.getId());
+        ReviewResponse reviewResponse = reviewService.getByReviewId(review.getId());
         System.out.println("reviewResponse = " + reviewResponse);
         assertThat(reviewResponse.getMessage()).isEqualTo("review1");
-
     }
 
     @Test
     void find() {
-        //waiting_id로 (deleted 필드가 false인) 가장 최근 review를 가져오는지
-        //deleted필드를 검사하진 않지만 false여야한다.
+
         User user = DummyDataMaker.user();
         Store store = DummyDataMaker.store();
         Waiting waiting = DummyDataMaker.waiting(user, store);
         Review review = DummyDataMaker.review(user, waiting);
 
-        when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting));
-        when(reviewRepository.findTopByWaitingOrderByIdDesc(waiting)).thenReturn(Optional.of(review));
+        when(reviewRepository.findTopByWaitingIdOrderByIdDesc(waiting.getId())).thenReturn(Optional.of(review));
 
-        ReviewResponse response = reviewService.find(waiting.getId());
+        ReviewResponse response = reviewService.getByWaitingId(waiting.getId());
         System.out.println("response = " + response);
 
         assertThat(response).isEqualTo(review.toResponse());
-
-
     }
 
     @Test
     void getList() {
-        //상점 id로 deleted 필드가 false인 리뷰 리스트를 가져온다.
         User user1 = DummyDataMaker.user();
         User user2 = DummyDataMaker.user();
         Store store = DummyDataMaker.store();
@@ -201,15 +188,12 @@ class ReviewServiceImplTest {
         Review review1 = DummyDataMaker.review(user1, waiting1);
         Review review2 = DummyDataMaker.review(user2, waiting2);
 
-        when(storeRepository.findById(anyLong())).thenReturn(Optional.of(store));
-        when(reviewRepository.findAllByWaitingStoreAndDeletedIsFalse(store)).thenReturn(List.of(review1, review2));
+        when(reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(store.getId())).thenReturn(List.of(review1, review2));
 
         List<ReviewResponse> responseList = reviewService.getList(store.getId());
         responseList.stream().forEach(System.out::println);
 
         assertThat(responseList.size()).isEqualTo(2);
         assertThat(responseList.get(0).getStoreName()).isEqualTo("TestStore1");
-
-
     }
 }

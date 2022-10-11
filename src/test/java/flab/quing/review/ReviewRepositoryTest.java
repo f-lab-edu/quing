@@ -29,7 +29,7 @@ class ReviewRepositoryTest {
         Review review1 = DummyDataMaker.review(user, waiting, "review1");
         reviewRepository.save(review1);
 
-        Review result1 = reviewRepository.findTopByWaitingOrderByIdDesc(waiting).get();
+        Review result1 = reviewRepository.findTopByWaitingIdOrderByIdDesc(waiting.getId()).get();
         assertThat(result1.getMessage()).isEqualTo("review1");
 
         result1.hide();
@@ -37,7 +37,7 @@ class ReviewRepositoryTest {
         Review review2 = DummyDataMaker.review(user, waiting, "review2");
         reviewRepository.save(review2);
 
-        Review result2 = reviewRepository.findTopByWaitingOrderByIdDesc(waiting).get();
+        Review result2 = reviewRepository.findTopByWaitingIdOrderByIdDesc(waiting.getId()).get();
         assertThat(result2.getMessage()).isEqualTo("review2");
     }
 
@@ -60,7 +60,9 @@ class ReviewRepositoryTest {
         Review review3 = DummyDataMaker.review(user1, waiting2, "review3");
         Review result3 = reviewRepository.save(review3);
 
-        List<Review> storeReviews = reviewRepository.findAllByWaitingStoreAndDeletedIsFalse(store);
+        List<Review> storeReviews = reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(store.getId());
+        List<Review> allByWaitingStoreIdAndDeletedIsFalse = reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(store.getId());
+        System.out.println("allByWaitingStoreIdAndDeletedIsFalse = " + allByWaitingStoreIdAndDeletedIsFalse);
 
         storeReviews.stream().forEach(System.out::println);
 
