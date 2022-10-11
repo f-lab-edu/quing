@@ -5,7 +5,6 @@ import flab.quing.waiting.dto.WaitingResponse;
 
 import java.util.List;
 
-//Chanwoo
 public interface QuingService {
 
     WaitingResponse append(WaitingRequest waitingRequest);
