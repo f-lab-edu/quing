@@ -9,16 +9,16 @@ public interface QuingService {
 
     WaitingResponse append(WaitingRequest waitingRequest);
 
-    List<WaitingResponse> getList(Long storeId);
+    List<WaitingResponse> getList(long storeId);
 
-    Integer countForward(Long waitingId);
+    Integer countForward(long waitingId);
 
-    void sendMessage(Long waitingId, String message);
+    void sendMessage(long waitingId, String message);
 
-    void sendEnterMessage(Long waitingId);
+    void sendEnterMessage(long waitingId);
 
-    void doneWaiting(Long waitingId);
+    void doneWaiting(long waitingId);
 
-    void cancelWaiting(Long waitingId);
+    void cancelWaiting(long waitingId);
 
 }
