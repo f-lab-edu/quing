@@ -15,7 +15,9 @@ public interface StoreService {
 
     StoreResponse getStore(long storeId);
 
-    StoreResponse update(StoreRequest storeRequest);
+    StoreResponse updateStore(StoreRequest storeRequest);
+
+    StoreResponse hideStore(long storeId);
 
     List<MenuResponse> getMenuList(long storeId);
 
@@ -25,3 +27,4 @@ public interface StoreService {
 
     MenuResponse updateMenu(MenuRequest menuRequest);
 }
+
