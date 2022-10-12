@@ -1,5 +1,6 @@
 package flab.quing.store;
 
+import flab.quing.store.dto.MenuRequest;
 import flab.quing.store.dto.MenuResponse;
 import flab.quing.user.BaseEntity;
 import lombok.AccessLevel;
@@ -29,10 +30,17 @@ public class Menu extends BaseEntity {
 
     public MenuResponse toResponse() {
         MenuResponse menuResponse = MenuResponse.builder()
+                .menuId(getId())
                 .name(name)
                 .price(price)
                 .imageUrl(imageUrl)
                 .build();
         return menuResponse;
+    }
+
+    public void update(MenuRequest menuRequest) {
+        name = menuRequest.getName();
+        price = menuRequest.getPrice();
+        imageUrl = menuRequest.getImageUrl();
     }
 }

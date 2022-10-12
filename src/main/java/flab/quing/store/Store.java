@@ -22,8 +22,6 @@ import javax.persistence.OneToOne;
 @Entity
 public class Store extends BaseEntity {
 
-    private long storeId;
-
     @OneToOne
     private User user;
 
@@ -53,15 +51,13 @@ public class Store extends BaseEntity {
         return storeResponse;
     }
 
-    public void of(StoreRequest storeRequest) {
-
+    public void update(StoreRequest storeRequest) {
         name = storeRequest.getName();
         phoneNumber = storeRequest.getPhoneNumber();
         openStatus = storeRequest.getOpenStatus();
         openHours = storeRequest.getOpenHours();
         address = storeRequest.getAddress();
         pageLink = storeRequest.getPageLink();
-
     }
 
 }

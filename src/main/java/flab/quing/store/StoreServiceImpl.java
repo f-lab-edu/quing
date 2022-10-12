@@ -25,16 +25,16 @@ public class StoreServiceImpl implements StoreService{
     private final UserRepository userRepository;
 
     @Override
-    public List<StoreResponse> getFindByStoreNameList(String name) {
-        List<Store> storeList = storeRepository.findAllByName(name);
-
-        return storeList.stream().map(Store::toResponse)
+    public List<StoreResponse> getStoreList(String name) {
+        return storeRepository.findAllByName(name)
+                .stream()
+                .map(Store::toResponse)
                 .collect(Collectors.toList());
     }
 
     @Override
     public StoreResponse getStore(long storeId) {
-        Store store = storeRepository.findByStoreId(storeId)
+        Store store = storeRepository.findById(storeId)
                 .orElseThrow(NoSuchStoreException::new);
 
         return store.toResponse();
@@ -63,12 +63,16 @@ public class StoreServiceImpl implements StoreService{
     @Transactional
     @Override
     public StoreResponse updateStore(StoreRequest storeRequest) {
-        return null;
+        Store updateStore = storeRepository.findById(storeRequest.getStoreId())
+                .orElseThrow(NoSuchStoreException::new);
+        updateStore.update(storeRequest);
+
+        return updateStore.toResponse();
     }
 
     @Override
     public StoreResponse hideStore(long storeId) {
-        Store store = storeRepository.findByStoreId(storeId)
+        Store store = storeRepository.findById(storeId)
                 .orElseThrow(NoSuchStoreException::new);
         store.hide();
 
@@ -77,18 +81,16 @@ public class StoreServiceImpl implements StoreService{
 
     @Override
     public List<MenuResponse> getMenuList(long storeId) {
-        Store store = storeRepository.findByStoreId(storeId)
-                .orElseThrow(NoSuchStoreException::new);
-
-        List<Menu> menu = menuRepository.findByStore(store);
-
-        return menu.stream().map(Menu::toResponse).collect(Collectors.toList());
+        return menuRepository.findByStoreId(storeId)
+                .stream()
+                .map(Menu::toResponse)
+                .collect(Collectors.toList());
     }
 
     @Transactional
     @Override
     public MenuResponse addMenu(MenuRequest menuRequest) {
-        Store store = storeRepository.findByStoreId(menuRequest.getStoreId())
+        Store store = storeRepository.findById(menuRequest.getStoreId())
                 .orElseThrow(NoSuchStoreException::new);
         Menu menu = Menu.builder()
                 .store(store)
@@ -113,6 +115,10 @@ public class StoreServiceImpl implements StoreService{
 
     @Override
     public MenuResponse updateMenu(MenuRequest menuRequest) {
-        return null;
+        Menu updateMenu = menuRepository.findById(menuRequest.getMenuId())
+                .orElseThrow(NoSuchMenuException::new);
+        updateMenu.update(menuRequest);
+
+        return updateMenu.toResponse();
     }
 }

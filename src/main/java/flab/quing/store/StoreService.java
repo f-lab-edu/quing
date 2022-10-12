@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface StoreService {
 
-    List<StoreResponse> getFindByStoreNameList(String name);
+    List<StoreResponse> getStoreList(String name);
 
     StoreResponse addStore(StoreRequest storeRequest);
 
@@ -17,7 +17,6 @@ public interface StoreService {
 
     StoreResponse update(StoreRequest storeRequest);
 
-    //menu
     List<MenuResponse> getMenuList(long storeId);
 
     MenuResponse addMenu(MenuRequest menuRequest);
