@@ -13,6 +13,10 @@ import lombok.Setter;
 @Builder
 public class MenuRequest {
 
+    private long storeId;
+
+    private long menuId;
+
     private String name;
 
     private String imageUrl;

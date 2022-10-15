@@ -2,7 +2,6 @@ package flab.quing.user.dto;
 
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.Setter;
 
 @Data
@@ -10,11 +9,8 @@ import lombok.Setter;
 public class StoreManagerResponse {
 
     private String loginId;
-
     private String password;
-
     private String phoneNumber;
-
     private String name;
 
 }

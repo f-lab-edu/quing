@@ -9,17 +9,22 @@ import java.util.List;
 
 public interface StoreService {
 
-    List<StoreResponse> findByStoreName(String name);
+    List<StoreResponse> getStoreList(String name);
 
-    StoreResponse get(Long storeId);
+    StoreResponse addStore(StoreRequest storeRequest);
 
-    StoreResponse update(StoreRequest storeRequest);
+    StoreResponse getStore(long storeId);
 
-    List<MenuResponse> getMenuList(Long storeId);
+    StoreResponse updateStore(StoreRequest storeRequest);
 
-    MenuResponse add(MenuRequest menu);
+    StoreResponse hideStore(long storeId);
 
-    MenuResponse hide(Long menuId);
+    List<MenuResponse> getMenuList(long storeId);
 
-    MenuResponse update(MenuRequest menuRequest);
+    MenuResponse addMenu(MenuRequest menuRequest);
+
+    MenuResponse hideMenu(long menuId);
+
+    MenuResponse updateMenu(MenuRequest menuRequest);
 }
+
