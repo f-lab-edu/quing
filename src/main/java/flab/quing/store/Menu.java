@@ -2,7 +2,7 @@ package flab.quing.store;
 
 import flab.quing.store.dto.MenuRequest;
 import flab.quing.store.dto.MenuResponse;
-import flab.quing.user.BaseEntity;
+import flab.quing.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

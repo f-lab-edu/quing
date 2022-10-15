@@ -1,5 +1,6 @@
 package flab.quing.user;
 
+import flab.quing.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Entity
 @Table(name = "Users")
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     private String name;
 

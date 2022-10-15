@@ -1,5 +1,6 @@
 package flab.quing.user;
 
+import flab.quing.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
