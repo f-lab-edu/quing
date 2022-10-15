@@ -1,5 +1,6 @@
 package flab.quing.user;
 
+import flab.quing.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,11 +13,10 @@ import javax.persistence.Entity;
 @Data
 @Setter(AccessLevel.NONE)
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Entity
-public class User extends BaseEntity{
+@Entity(name = "users")
+public class User extends BaseEntity {
     private String name;
     private String phone;
 }
-

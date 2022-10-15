@@ -1,7 +1,7 @@
 package flab.quing.review;
 
 import flab.quing.store.Store;
-import flab.quing.user.BaseEntity;
+import flab.quing.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Data
 @Setter(AccessLevel.NONE)
@@ -20,7 +21,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Rating extends BaseEntity {
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Store store;
 
     private float rating;

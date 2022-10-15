@@ -47,4 +47,3 @@ public class SwaggerConfig {
         return produces;
     }
 }
-

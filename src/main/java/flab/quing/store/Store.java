@@ -1,6 +1,6 @@
 package flab.quing.store;
 
-import flab.quing.user.BaseEntity;
+import flab.quing.entity.BaseEntity;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,7 @@ import javax.persistence.Entity;
 @Data
 @Setter(AccessLevel.NONE)
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Entity
 public class Store extends BaseEntity {
