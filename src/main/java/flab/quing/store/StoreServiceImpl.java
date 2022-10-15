@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
-public class StoreServiceImpl implements StoreService{
+public class StoreServiceImpl implements StoreService {
 
     private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
@@ -66,6 +66,7 @@ public class StoreServiceImpl implements StoreService{
         Store updateStore = storeRepository.findById(storeRequest.getStoreId())
                 .orElseThrow(NoSuchStoreException::new);
         updateStore.update(storeRequest);
+        storeRepository.save(updateStore);
 
         return updateStore.toResponse();
     }
@@ -118,6 +119,7 @@ public class StoreServiceImpl implements StoreService{
         Menu updateMenu = menuRepository.findById(menuRequest.getMenuId())
                 .orElseThrow(NoSuchMenuException::new);
         updateMenu.update(menuRequest);
+        menuRepository.save(updateMenu);
 
         return updateMenu.toResponse();
     }
