@@ -22,7 +22,7 @@ public class User extends BaseEntity {
 
     private String name;
 
-    private String phone;
+    private String phoneNumber;
 
 }
 
