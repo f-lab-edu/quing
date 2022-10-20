@@ -11,7 +11,7 @@ public interface QuingService {
 
     List<WaitingResponse> getList(long storeId);
 
-    Integer countForward(long waitingId);
+    int countForward(long waitingId);
 
     void sendMessage(long waitingId, String message);
 

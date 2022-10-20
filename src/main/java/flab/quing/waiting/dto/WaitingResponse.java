@@ -1,5 +1,6 @@
 package flab.quing.waiting.dto;
 
+import flab.quing.waiting.WaitingQueueStatus;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,10 @@ public class WaitingResponse {
 
     private String phoneNumber;
 
-    private Integer countForward;
+    private int countForward;
+
+    private int callCount;
+
+    private WaitingQueueStatus waitingQueueStatus;
 
 }
