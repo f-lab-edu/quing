@@ -13,7 +13,5 @@ public class WaitingRequest {
 
     private long userId;
 
-    private String phoneNumber;
-
     private long storeId;
 }
