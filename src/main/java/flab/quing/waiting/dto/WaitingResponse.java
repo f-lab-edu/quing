@@ -11,13 +11,13 @@ import lombok.Setter;
 @Builder
 public class WaitingResponse {
 
+    private long id;
+
     private String storeName;
 
     private String userName;
 
     private String phoneNumber;
-
-    private int countForward;
 
     private int callCount;
 

@@ -1,8 +1,9 @@
 package flab.quing.waiting;
 
-import flab.quing.store.Store;
 import flab.quing.entity.BaseEntity;
+import flab.quing.store.Store;
 import flab.quing.user.User;
+import flab.quing.waiting.dto.WaitingResponse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,4 +33,29 @@ public class Waiting extends BaseEntity {
 
     private WaitingQueueStatus waitingQueueStatus;
 
+
+    public static Waiting of(User user, Store store) {
+        return Waiting.builder()
+                .user(user)
+                .store(store)
+                .waitingQueueStatus(WaitingQueueStatus.WAITING)
+                .build();
+    }
+
+    public WaitingResponse toResponse() {
+        WaitingResponse waitingResponse = WaitingResponse.builder()
+                .id(getId())
+                .storeName(store.getName())
+                .userName(user.getName())
+                .phoneNumber(user.getPhoneNumber())
+                .waitingQueueStatus(waitingQueueStatus)
+                .callCount(callCount)
+                .build();
+
+        return waitingResponse;
+    }
+
+    public void done() {
+        waitingQueueStatus = WaitingQueueStatus.DONE;
+    }
 }

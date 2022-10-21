@@ -17,7 +17,7 @@ public interface QuingService {
 
     void sendEnterMessage(long waitingId);
 
-    void doneWaiting(long waitingId);
+    WaitingResponse doneWaiting(long waitingId);
 
     void cancelWaiting(long waitingId);
 
