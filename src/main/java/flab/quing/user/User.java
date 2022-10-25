@@ -1,6 +1,7 @@
 package flab.quing.user;
 
 import flab.quing.entity.BaseEntity;
+import flab.quing.user.dto.UserResponse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,7 +23,16 @@ public class User extends BaseEntity {
 
     private String name;
 
-    private String phone;
+    private String phoneNumber;
+
+    public UserResponse toResponse() {
+        UserResponse userResponse = UserResponse.builder()
+                .userId(getId())
+                .name(name)
+                .phoneNumber(phoneNumber)
+                .build();
+        return userResponse;
+    }
 
 }
 

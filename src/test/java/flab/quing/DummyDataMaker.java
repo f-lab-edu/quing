@@ -23,7 +23,7 @@ public class DummyDataMaker {
         userCount++;
         User user = User.builder()
                 .name("TestUser" + userCount)
-                .phone("010-1234-" + String.format("%04d", userCount))
+                .phoneNumber("010-1234-" + String.format("%04d", userCount))
                 .build();
         user.setId(userCount);
         return user;
@@ -33,7 +33,7 @@ public class DummyDataMaker {
         userCount++;
         User user = User.builder()
                 .name(name)
-                .phone("010-1234-" + String.format("%04d", userCount))
+                .phoneNumber("010-1234-" + String.format("%04d", userCount))
                 .build();
         user.setId(userCount);
         return user;

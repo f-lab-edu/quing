@@ -42,7 +42,7 @@ class StoreServiceImplTest {
         //given
         User user = User.builder()
                 .name("김땡땡")
-                .phone("010-9999-9999")
+                .phoneNumber("010-9999-9999")
                 .build();
         user.setId(1L);
 
@@ -85,7 +85,7 @@ class StoreServiceImplTest {
         //given
         User user = User.builder()
                 .name("김땡땡")
-                .phone("010-9999-9999")
+                .phoneNumber("010-9999-9999")
                 .build();
         user.setId(1L);
 
@@ -150,7 +150,7 @@ class StoreServiceImplTest {
         //given
         User user = User.builder()
                 .name("김땡땡")
-                .phone("010-9999-9999")
+                .phoneNumber("010-9999-9999")
                 .build();
         user.setId(1L);
 
@@ -191,7 +191,7 @@ class StoreServiceImplTest {
         //given
         User user = User.builder()
                 .name("김땡땡")
-                .phone("010-9999-9999")
+                .phoneNumber("010-9999-9999")
                 .build();
         user.setId(1L);
 
