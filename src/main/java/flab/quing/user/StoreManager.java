@@ -1,6 +1,7 @@
 package flab.quing.user;
 
 import flab.quing.entity.BaseEntity;
+import flab.quing.user.dto.StoreManagerResponse;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,4 +27,14 @@ public class StoreManager extends BaseEntity {
     private String phoneNumber;
 
     private String name;
+
+    public StoreManagerResponse toResponse() {
+        StoreManagerResponse storeManagerResponse = StoreManagerResponse.builder()
+                .loginId(loginId)
+                .password(encryptedPassword)
+                .phoneNumber(phoneNumber)
+                .name(name)
+                .build();
+        return storeManagerResponse;
+    }
 }
