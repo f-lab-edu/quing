@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public UserResponse signUp(UserRequest userRequest) {
-        duplicationCheckUser(userRequest);
+        checkUserDuplication(userRequest.getPhoneNumber());
         User user = User.builder()
                 .name(userRequest.getName())
                 .phoneNumber(userRequest.getPhoneNumber())
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public StoreManagerResponse storeSignUp(StoreManagerRequest storeManagerRequest) {
-        duplicationCheckStoreManger(storeManagerRequest);
+        checkStoreManagerDuplication(storeManagerRequest.getLoginId());
         StoreManager storeManager = StoreManager.builder()
                 .loginId(storeManagerRequest.getLoginId())
                 .encryptedPassword(storeManagerRequest.getPassword())
@@ -53,17 +53,17 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    private void duplicationCheckUser(UserRequest userRequest) {
-        boolean isParent = userRepository.findByPhoneNumber(userRequest.getPhoneNumber()).isPresent();
+    private void checkUserDuplication(String phoneNumber) {
+        boolean isParent = userRepository.findByPhoneNumber(phoneNumber).isPresent();
         if (isParent) {
-            throw new SignUpException("request phoneNumber is already exists");
+            throw new SignUpException("request phoneNumber(" + phoneNumber +") is already exists");
         }
     }
 
-    private void duplicationCheckStoreManger(StoreManagerRequest storeManagerRequest) {
-        boolean isParent = storeManagerRepository.findByLoginId(storeManagerRequest.getLoginId()).isPresent();
+    private void checkStoreManagerDuplication(String loginId) {
+        boolean isParent = storeManagerRepository.findByLoginId(loginId).isPresent();
         if (isParent) {
-            throw new SignUpException("request id is already exists");
+            throw new SignUpException("request id("+ loginId +")is already exists");
         }
     }
 }
