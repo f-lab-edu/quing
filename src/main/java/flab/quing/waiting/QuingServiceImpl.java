@@ -36,7 +36,6 @@ public class QuingServiceImpl implements QuingService {
 
     @Override
     public List<WaitingResponse> getList(long storeId) {
-//        return waitingRepository.findAllByStoreId(storeId)
         return waitingRepository.findAllByStoreIdAndWaitingQueueStatusIs(storeId, WaitingQueueStatus.WAITING)
                 .stream()
                 .map(Waiting::toResponse)
