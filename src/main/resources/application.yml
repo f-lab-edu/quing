@@ -10,6 +10,25 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+  boot:
+    admin:
+      client:
+        url: http://localhost:8000
+      instance:
+        name: quing
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
 
 ---
 spring:
