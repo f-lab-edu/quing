@@ -17,8 +17,10 @@ public interface QuingService {
 
     void sendEnterMessage(long waitingId);
 
+    void sendRegisterMessage(long waitingId);
+
     WaitingResponse doneWaiting(long waitingId);
 
-    void cancelWaiting(long waitingId);
+    WaitingResponse cancelWaiting(long waitingId);
 
 }

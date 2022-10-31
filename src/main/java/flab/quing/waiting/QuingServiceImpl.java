@@ -76,8 +76,9 @@ public class QuingServiceImpl implements QuingService {
 
     @Override
     @Transactional
-    public void cancelWaiting(long waitingId) {
+    public WaitingResponse cancelWaiting(long waitingId) {
         Waiting waiting = waitingRepository.findById(waitingId).orElseThrow(NoSuchWaitingException::new);
         waiting.cancel();
+        return waiting.toResponse();
     }
 }
