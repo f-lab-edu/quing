@@ -8,6 +8,8 @@ import flab.quing.user.User;
 import flab.quing.user.UserRepository;
 import flab.quing.waiting.dto.WaitingRequest;
 import flab.quing.waiting.dto.WaitingResponse;
+import flab.quing.waiting.exception.DuplicateWaitingException;
+import flab.quing.waiting.exception.NoSuchWaitingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

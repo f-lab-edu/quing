@@ -2,7 +2,7 @@ package flab.quing.review;
 
 import flab.quing.review.dto.ReviewRequest;
 import flab.quing.review.dto.ReviewResponse;
-import flab.quing.waiting.NoSuchWaitingException;
+import flab.quing.waiting.exception.NoSuchWaitingException;
 import flab.quing.waiting.Waiting;
 import flab.quing.waiting.WaitingRepository;
 import lombok.RequiredArgsConstructor;
