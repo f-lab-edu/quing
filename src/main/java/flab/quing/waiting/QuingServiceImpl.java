@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -29,8 +30,12 @@ public class QuingServiceImpl implements QuingService {
         User user = userRepository.findById(waitingRequest.getUserId()).orElseThrow(NoSuchUserException::new);
         Store store = storeRepository.findById(waitingRequest.getStoreId()).orElseThrow(NoSuchStoreException::new);
         Waiting waiting = Waiting.of(user, store);
-        Waiting save = waitingRepository.save(waiting);
 
+        Optional<Waiting> exist = waitingRepository.findByUserIdAndWaitingQueueStatusIs(user.getId(), WaitingQueueStatus.WAITING);
+        if(exist.isPresent()) {
+            throw new DuplicateWaitingException();
+        }
+        Waiting save = waitingRepository.save(waiting);
         return save.toResponse();
     }
 
