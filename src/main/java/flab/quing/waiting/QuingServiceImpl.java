@@ -58,12 +58,21 @@ public class QuingServiceImpl implements QuingService {
 
     @Override
     public void sendMessage(long waitingId, String message) {
-
+        //ncloud sms
+        Waiting waiting = waitingRepository.findById(waitingId).orElseThrow(NoSuchWaitingException::new);
+        User user = waiting.getUser();
+        System.out.println("phoneNumber = " + user.getPhoneNumber());
+        System.out.println("message = " + user.getName()+"님 "+message);
     }
 
     @Override
     public void sendEnterMessage(long waitingId) {
+        sendMessage(waitingId, "입장해주세요!");
+    }
 
+    @Override
+    public void sendRegisterMessage(long waitingId) {
+        sendMessage(waitingId, "등록되었습니다.");
     }
 
     @Override
