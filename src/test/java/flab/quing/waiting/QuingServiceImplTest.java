@@ -13,6 +13,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +26,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@ExtendWith(OutputCaptureExtension.class)
 class QuingServiceImplTest {
 
     @InjectMocks
@@ -40,7 +43,6 @@ class QuingServiceImplTest {
 
     @Test
     void append() {
-
         User user = DummyDataMaker.user();
         Store store = DummyDataMaker.store();
         WaitingRequest waitingRequest = WaitingRequest.builder()
@@ -120,22 +122,62 @@ class QuingServiceImplTest {
     }
 
     @Test
-    void sendMessage() {
+    void sendMessage(CapturedOutput output) {
+        User user1 = DummyDataMaker.user();
+        Store store = DummyDataMaker.store();
+        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
+
+        when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
+
         quingService.sendMessage(1L, "test");
+
+        assertThat(output).contains("test");
     }
 
     @Test
-    void sendEnterMessage() {
+    void sendEnterMessage(CapturedOutput output) {
+        User user1 = DummyDataMaker.user();
+        Store store = DummyDataMaker.store();
+        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
+
+        when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
+
         quingService.sendEnterMessage(1L);
+        assertThat(output).contains("입장");
+
+    }
+
+    @Test
+    void sendRegisterMessage(CapturedOutput output) {
+        User user1 = DummyDataMaker.user();
+        Store store = DummyDataMaker.store();
+        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
+
+        when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
+
+        quingService.sendRegisterMessage(1L);
+        assertThat(output).contains("등록");
     }
 
     @Test
     void doneWaiting() {
-        quingService.doneWaiting(1L);
+        User user1 = DummyDataMaker.user();
+        Store store = DummyDataMaker.store();
+        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
+        when(waitingRepository.findById(anyLong())).thenReturn(Optional.ofNullable(waiting1));
+        WaitingResponse waitingResponse = quingService.doneWaiting(1L);
+        System.out.println("waitingResponse = " + waitingResponse);
+        assertThat(waitingResponse.getWaitingQueueStatus()).isEqualTo(WaitingQueueStatus.DONE);
     }
 
     @Test
     void cancelWaiting() {
-        quingService.cancelWaiting(1L);
+        User user1 = DummyDataMaker.user();
+        Store store = DummyDataMaker.store();
+        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
+        when(waitingRepository.findById(anyLong())).thenReturn(Optional.ofNullable(waiting1));
+        WaitingResponse waitingResponse = quingService.cancelWaiting(1L);
+        System.out.println("waitingResponse = " + waitingResponse);
+        assertThat(waitingResponse.getWaitingQueueStatus()).isEqualTo(WaitingQueueStatus.CANCELED);
     }
 }
