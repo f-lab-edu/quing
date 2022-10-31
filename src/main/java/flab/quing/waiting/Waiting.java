@@ -58,4 +58,8 @@ public class Waiting extends BaseEntity {
     public void done() {
         waitingQueueStatus = WaitingQueueStatus.DONE;
     }
+
+    public void cancel() {
+        waitingQueueStatus = WaitingQueueStatus.CANCELED;
+    }
 }
