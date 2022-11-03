@@ -44,30 +44,30 @@ class ReviewRepositoryTest {
 
     @Test
     void findAllByWaitingStoreAndDeletedIsFalse() {
+        //given
         User user1 = DummyDataMaker.user();
         User user2 = DummyDataMaker.user();
-
         Store store = DummyDataMaker.store();
 
         Waiting waiting1 = DummyDataMaker.waiting(user1, store);
         Waiting waiting2 = DummyDataMaker.waiting(user2, store);
 
         Review review1 = DummyDataMaker.review(user1, waiting1, "review1");
-        Review review2 = DummyDataMaker.review(user1, waiting2, "review2");
-
         Review result1 = reviewRepository.save(review1);
+        Review review2 = DummyDataMaker.review(user1, waiting2, "review2");
         Review result2 = reviewRepository.save(review2);
-        result2.hide();
         Review review3 = DummyDataMaker.review(user1, waiting2, "review3");
         Review result3 = reviewRepository.save(review3);
+
+        //when
+        result2.hide();
 
         List<Review> storeReviews = reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(store.getId());
         List<Review> allByWaitingStoreIdAndDeletedIsFalse = reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(store.getId());
         log.debug("allByWaitingStoreIdAndDeletedIsFalse = " + allByWaitingStoreIdAndDeletedIsFalse);
         storeReviews.stream().forEach(obj -> log.debug(obj.toString()));
 
-        storeReviews.stream().forEach(System.out::println);
-
+        //then
         assertThat(storeReviews.size()).isEqualTo(2);
         assertThat(storeReviews.get(0).getMessage()).isEqualTo("review1");
         assertThat(storeReviews.get(1).getMessage()).isEqualTo("review3");
