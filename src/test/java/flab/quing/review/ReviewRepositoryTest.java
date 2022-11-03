@@ -4,6 +4,7 @@ import flab.quing.DummyDataMaker;
 import flab.quing.store.Store;
 import flab.quing.user.User;
 import flab.quing.waiting.Waiting;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 @DataJpaTest
 class ReviewRepositoryTest {
 
@@ -21,7 +23,6 @@ class ReviewRepositoryTest {
 
     @Test
     void findByWaitingOrderByIdDesc() {
-
         User user = DummyDataMaker.user();
         Store store = DummyDataMaker.store();
         Waiting waiting = DummyDataMaker.waiting(user, store);
@@ -62,7 +63,8 @@ class ReviewRepositoryTest {
 
         List<Review> storeReviews = reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(store.getId());
         List<Review> allByWaitingStoreIdAndDeletedIsFalse = reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(store.getId());
-        System.out.println("allByWaitingStoreIdAndDeletedIsFalse = " + allByWaitingStoreIdAndDeletedIsFalse);
+        log.debug("allByWaitingStoreIdAndDeletedIsFalse = " + allByWaitingStoreIdAndDeletedIsFalse);
+        storeReviews.stream().forEach(obj -> log.debug(obj.toString()));
 
         storeReviews.stream().forEach(System.out::println);
 

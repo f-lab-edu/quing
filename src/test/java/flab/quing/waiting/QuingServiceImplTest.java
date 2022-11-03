@@ -8,6 +8,8 @@ import flab.quing.user.UserRepository;
 import flab.quing.waiting.dto.WaitingRequest;
 import flab.quing.waiting.dto.WaitingResponse;
 import flab.quing.waiting.exception.DuplicateWaitingException;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -25,6 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(OutputCaptureExtension.class)
 class QuingServiceImplTest {
@@ -57,7 +60,7 @@ class QuingServiceImplTest {
         when(waitingRepository.save(any())).thenReturn(waiting);
 
         WaitingResponse waitingResponse = quingService.append(waitingRequest);
-        System.out.println("waitingResponse = " + waitingResponse);
+        log.debug("waitingResponse = " + waitingResponse);
 
         assertThat(waitingResponse.getId()).isEqualTo(1);
     }
@@ -166,7 +169,9 @@ class QuingServiceImplTest {
         Waiting waiting1 = DummyDataMaker.waiting(user1, store);
         when(waitingRepository.findById(anyLong())).thenReturn(Optional.ofNullable(waiting1));
         WaitingResponse waitingResponse = quingService.doneWaiting(1L);
-        System.out.println("waitingResponse = " + waitingResponse);
+        log.debug("waitingResponse = " + waitingResponse);
+
+        //then
         assertThat(waitingResponse.getWaitingQueueStatus()).isEqualTo(WaitingQueueStatus.DONE);
     }
 
@@ -177,7 +182,9 @@ class QuingServiceImplTest {
         Waiting waiting1 = DummyDataMaker.waiting(user1, store);
         when(waitingRepository.findById(anyLong())).thenReturn(Optional.ofNullable(waiting1));
         WaitingResponse waitingResponse = quingService.cancelWaiting(1L);
-        System.out.println("waitingResponse = " + waitingResponse);
+        log.debug("waitingResponse = " + waitingResponse);
+
+        //then
         assertThat(waitingResponse.getWaitingQueueStatus()).isEqualTo(WaitingQueueStatus.CANCELED);
     }
 }
