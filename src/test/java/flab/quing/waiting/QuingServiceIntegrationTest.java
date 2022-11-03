@@ -30,7 +30,6 @@ class QuingServiceIntegrationTest {
 
     @Test
     void append() {
-
         User user = userRepository.save(DummyDataMaker.user());
         Store store = storeRepository.save(DummyDataMaker.store());
 
@@ -47,8 +46,6 @@ class QuingServiceIntegrationTest {
 
         assertThat(list.size()).isEqualTo(1);
         assertThat(list.get(0).getUserName()).isEqualTo(user.getName());
-
-
     }
 
     @Test
@@ -65,8 +62,7 @@ class QuingServiceIntegrationTest {
         User user4 = DummyDataMaker.user();
 
         storeRepository.save(store);
-        userRepository.saveAll(List.of(user1,user2,user3,user4));
-
+        userRepository.saveAll(List.of(user1, user2, user3, user4));
 
         WaitingRequest waitingRequest1 = WaitingRequest.builder()
                 .storeId(store.getId())
@@ -77,8 +73,6 @@ class QuingServiceIntegrationTest {
                 .storeId(store.getId())
                 .userId(user2.getId())
                 .build();
-
-
 
         WaitingRequest waitingRequest3 = WaitingRequest.builder()
                 .storeId(store.getId())
@@ -104,7 +98,6 @@ class QuingServiceIntegrationTest {
         list.forEach(System.out::println);
 
         assertThat(forward).isEqualTo(2);
-
     }
 
     @Test
