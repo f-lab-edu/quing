@@ -12,10 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRequest {
+public class StoreManagerLoginRequest {
 
-    private String name;
+    private String loginId;
 
-    private String phoneNumber;
-
+    private String password;
 }

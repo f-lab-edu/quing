@@ -1,9 +1,11 @@
 package flab.quing.user;
 
+import flab.quing.store.exception.NoSuchUserException;
 import flab.quing.user.dto.StoreManagerRequest;
 import flab.quing.user.dto.StoreManagerResponse;
 import flab.quing.user.dto.UserRequest;
 import flab.quing.user.dto.UserResponse;
+import flab.quing.user.exception.NoSuchStoreManagerException;
 import flab.quing.user.exception.SignUpException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +33,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse signIn(String name, String phoneNumber) {
-        return null;
+        User findUser = userRepository.findByPhoneNumber(phoneNumber)
+                .orElseThrow(NoSuchUserException::new);
+        return findUser.toResponse();
     }
 
     @Transactional
@@ -49,8 +53,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public StoreManagerResponse storeSignIn(String name, String password) {
-        return null;
+    public StoreManagerResponse storeSignIn(String loginId, String password) {
+        StoreManager storeManager = storeManagerRepository.findByLoginId(loginId)
+                .filter(m -> m.getEncryptedPassword().equals(password))
+                .orElseThrow(NoSuchStoreManagerException::new);
+        return storeManager.toResponse();
     }
 
     private void checkUserDuplication(String phoneNumber) {

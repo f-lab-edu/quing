@@ -13,6 +13,6 @@ public interface UserService {
 
     StoreManagerResponse storeSignUp(StoreManagerRequest storeManagerRequest);
 
-    StoreManagerResponse storeSignIn(String name, String password);
+    StoreManagerResponse storeSignIn(String loginId, String password);
 
 }
