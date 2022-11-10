@@ -24,5 +24,14 @@ public class User extends BaseEntity {
 
     private String phoneNumber;
 
+    public UserResponse toResponse() {
+        UserResponse userResponse = UserResponse.builder()
+                .userId(getId())
+                .name(name)
+                .phoneNumber(phoneNumber)
+                .build();
+        return userResponse;
+    }
+
 }
 
