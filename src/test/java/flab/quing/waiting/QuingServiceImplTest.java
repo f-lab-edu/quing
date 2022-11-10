@@ -74,7 +74,7 @@ class QuingServiceImplTest {
     }
 
     @Test
-    void append_exist_throw_exception() {
+    void appendExistThrowDuplicateException() {
         //given
         User user = DummyDataMaker.user();
         Store store = DummyDataMaker.store();

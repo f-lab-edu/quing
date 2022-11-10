@@ -68,26 +68,21 @@ class ReviewRepositoryTest {
 
         Review review1 = reviewRepository.save(DummyDataMaker.review(user1, waiting1, "review1"));
         log.info("review1 = " + review1);
+
         Review review2 = reviewRepository.save(DummyDataMaker.review(user2, waiting2, "review2"));
         log.info("review2 = " + review2.getDeleted_at());
+
         review2.hide();
         log.info("review2 = " + review2.getDeleted_at());
+
         Review review3 = reviewRepository.save(DummyDataMaker.review(user2, waiting2, "review3"));
         log.info("review3 = " + review3);
 
-
-        storeRepository.findAll().forEach(o-> log.info(o.getId().toString()+" "+o.toString()));
+        storeRepository.findAll().forEach(o-> log.info(o.getId().toString()+" "+o));
 
         //when
-
-
         List<Review> storeReviews = reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(store.getId());
-//        List<Review> storeReviews = reviewRepository.findAllByWaitingStoreId(store.getId());
         log.info("allByWaitingStoreIdAndDeletedIsFalse = " + storeReviews);
-//        storeReviews.stream().forEach(obj -> log.info(obj.getDeleted_at().toString()));
-
-
-
 
         //then
         assertThat(storeReviews.size()).isEqualTo(2);

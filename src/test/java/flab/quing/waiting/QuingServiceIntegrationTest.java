@@ -43,8 +43,7 @@ class QuingServiceIntegrationTest {
         WaitingResponse waitingResponse = quingService.append(waitingRequest);
 
         List<WaitingResponse> list = quingService.getList(store.getId());
-//        System.out.println("list = " + list);
-        list.forEach(System.out::println);
+        list.forEach(o -> log.info("o = " + o));
 
         assertThat(list.size()).isEqualTo(1);
         assertThat(list.get(0).getUserName()).isEqualTo(user.getName());
@@ -60,7 +59,6 @@ class QuingServiceIntegrationTest {
         User user2 = userRepository.save(DummyDataMaker.user());
         User user3 = userRepository.save(DummyDataMaker.user());
         User user4 = userRepository.save(DummyDataMaker.user());
-//        userRepository.saveAll(List.of(user1, user2, user3, user4));
         log.info("userRepository = " + userRepository.findAll());
 
         WaitingRequest waitingRequest1 = WaitingRequest.builder()
@@ -88,6 +86,7 @@ class QuingServiceIntegrationTest {
         log.info("waitingRequest2 = " + waitingRequest2);
         log.info("waitingRequest3 = " + waitingRequest3);
         log.info("waitingRequest4 = " + waitingRequest4);
+
         WaitingResponse waitingResponse1 = quingService.append(waitingRequest1);
         WaitingResponse waitingResponse2 = quingService.append(waitingRequest2);
         WaitingResponse waitingResponse3 = quingService.append(waitingRequest3);
@@ -103,5 +102,4 @@ class QuingServiceIntegrationTest {
 
         assertThat(forward).isEqualTo(2);
     }
-
 }
