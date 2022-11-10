@@ -11,6 +11,7 @@ import flab.quing.waiting.dto.WaitingResponse;
 import flab.quing.waiting.exception.DuplicateWaitingException;
 import flab.quing.waiting.exception.NoSuchWaitingException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class QuingServiceImpl implements QuingService {
@@ -50,6 +52,7 @@ public class QuingServiceImpl implements QuingService {
     }
 
     @Override
+    @Transactional
     public int countForward(long waitingId) {
         Waiting waiting = waitingRepository.findById(waitingId).orElseThrow(NoSuchWaitingException::new);
         List<WaitingResponse> list = getList(waiting.getStore().getId());
@@ -58,12 +61,21 @@ public class QuingServiceImpl implements QuingService {
 
     @Override
     public void sendMessage(long waitingId, String message) {
-
+        //ncloud sms
+        Waiting waiting = waitingRepository.findById(waitingId).orElseThrow(NoSuchWaitingException::new);
+        User user = waiting.getUser();
+        System.out.println("phoneNumber = " + user.getPhoneNumber());
+        System.out.println("message = " + user.getName()+"님 "+message);
     }
 
     @Override
     public void sendEnterMessage(long waitingId) {
+        sendMessage(waitingId, "입장해주세요!");
+    }
 
+    @Override
+    public void sendRegisterMessage(long waitingId) {
+        sendMessage(waitingId, "등록되었습니다.");
     }
 
     @Override
@@ -76,8 +88,9 @@ public class QuingServiceImpl implements QuingService {
 
     @Override
     @Transactional
-    public void cancelWaiting(long waitingId) {
+    public WaitingResponse cancelWaiting(long waitingId) {
         Waiting waiting = waitingRepository.findById(waitingId).orElseThrow(NoSuchWaitingException::new);
         waiting.cancel();
+        return waiting.toResponse();
     }
 }
