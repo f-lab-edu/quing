@@ -8,7 +8,9 @@ import lombok.Setter;
 @Data
 @Setter(AccessLevel.NONE)
 @Builder
-public class StoreMangerRequest {
+public class StoreManagerRequest {
+
+    private String loginId;
 
     private String name;
 
