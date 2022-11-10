@@ -1,4 +1,4 @@
-package flab.quing.waiting;
+package flab.quing.waiting.exception;
 
 import java.util.NoSuchElementException;
 
