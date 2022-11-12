@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
@@ -35,10 +37,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse signIn(String name, String phoneNumber) {
-        User findUser = userRepository.findByPhoneNumber(phoneNumber)
+    public UserResponse updateUserName(UserRequest userRequest) {
+        User user = userRepository.findByPhoneNumber(userRequest.getPhoneNumber())
                 .orElseThrow(NoSuchUserException::new);
-        return findUser.toResponse();
+        user.setName(userRequest.getName());
+        return user.toResponse();
+    }
+
+    @Override
+    public UserResponse signIn(String phoneNumber) {
+        Optional<User> optionalUser = userRepository.findByPhoneNumber(phoneNumber);
+        if (optionalUser.isEmpty()) {
+            UserRequest createdUser = UserRequest.builder()
+                    .phoneNumber(phoneNumber)
+                    .build();
+            return signUp(createdUser);
+        }
+        return optionalUser.get().toResponse();
     }
 
     @Transactional

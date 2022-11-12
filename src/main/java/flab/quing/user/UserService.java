@@ -9,7 +9,9 @@ public interface UserService {
 
     UserResponse signUp(UserRequest userRequest);
 
-    UserResponse signIn(String name, String phoneNumber);
+    UserResponse updateUserName(UserRequest userRequest);
+
+    UserResponse signIn(String phoneNumber);
 
     StoreManagerResponse storeSignUp(StoreManagerRequest storeManagerRequest);
 

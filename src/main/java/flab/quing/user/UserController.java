@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/user")
 public class UserController {
 
     private final UserService userService;
@@ -33,7 +33,7 @@ public class UserController {
 
     @PostMapping("/sign-in")
     public ResponseEntity<UserResponse> signInUser(@RequestBody UserRequest userRequest, HttpServletRequest request) {
-        UserResponse userResponse = userService.signIn(userRequest.getName(), userRequest.getPhoneNumber());
+        UserResponse userResponse = userService.signIn(userRequest.getPhoneNumber());
 
         HttpSession httpSession = request.getSession();
         httpSession.setAttribute("AUTH_USER", userResponse);
