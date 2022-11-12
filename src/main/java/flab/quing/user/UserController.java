@@ -1,6 +1,7 @@
 package flab.quing.user;
 
 import flab.quing.user.dto.StoreManagerLoginRequest;
+import flab.quing.user.dto.StoreManagerRequest;
 import flab.quing.user.dto.StoreManagerResponse;
 import flab.quing.user.dto.UserRequest;
 import flab.quing.user.dto.UserResponse;
@@ -23,7 +24,14 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/login")
+    @PostMapping("/sign-up")
+    public ResponseEntity<UserResponse> signUpUser(@RequestBody UserRequest userRequest) {
+        UserResponse userResponse = userService.signUp(userRequest);
+
+        return ResponseEntity.ok(userResponse);
+    }
+
+    @PostMapping("/sign-in")
     public ResponseEntity<UserResponse> signInUser(@RequestBody UserRequest userRequest, HttpServletRequest request) {
         UserResponse userResponse = userService.signIn(userRequest.getName(), userRequest.getPhoneNumber());
 
@@ -33,7 +41,14 @@ public class UserController {
         return ResponseEntity.ok(userResponse);
     }
 
-    @PostMapping("/store-login")
+    @PostMapping("/store-sign-up")
+    public ResponseEntity<StoreManagerResponse> signUpStore(@RequestBody StoreManagerRequest storeManagerRequest) {
+        StoreManagerResponse storeManagerResponse = userService.storeSignUp(storeManagerRequest);
+
+        return ResponseEntity.ok(storeManagerResponse);
+    }
+
+    @PostMapping("/store-sign-in")
     public ResponseEntity<StoreManagerResponse> signInStore(@RequestBody StoreManagerLoginRequest storeManagerLoginRequest, HttpServletRequest request) {
         StoreManagerResponse storeManagerResponse
                 = userService.storeSignIn(storeManagerLoginRequest.getLoginId(), storeManagerLoginRequest.getPassword());

@@ -5,7 +5,7 @@ import flab.quing.user.dto.StoreManagerRequest;
 import flab.quing.user.dto.StoreManagerResponse;
 import flab.quing.user.dto.UserRequest;
 import flab.quing.user.dto.UserResponse;
-import flab.quing.user.exception.NoSuchStoreManagerException;
+import flab.quing.user.exception.SignInException;
 import flab.quing.user.exception.SignUpException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +18,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final StoreManagerRepository storeManagerRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
 
     @Transactional
     @Override
@@ -44,7 +47,7 @@ public class UserServiceImpl implements UserService {
         checkStoreManagerDuplication(storeManagerRequest.getLoginId());
         StoreManager storeManager = StoreManager.builder()
                 .loginId(storeManagerRequest.getLoginId())
-                .encryptedPassword(storeManagerRequest.getPassword())
+                .encryptedPassword(passwordEncoder.hashPassword(storeManagerRequest.getPassword()))
                 .name(storeManagerRequest.getName())
                 .phoneNumber(storeManagerRequest.getPhoneNumber())
                 .build();
@@ -54,10 +57,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public StoreManagerResponse storeSignIn(String loginId, String password) {
-        StoreManager storeManager = storeManagerRepository.findByLoginId(loginId)
-                .filter(m -> m.getEncryptedPassword().equals(password))
-                .orElseThrow(NoSuchStoreManagerException::new);
-        return storeManager.toResponse();
+        StoreManager findStoreManager = storeManagerRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new SignInException("User not found."));
+
+        boolean isMatched = passwordEncoder.isMatched(password, findStoreManager.getEncryptedPassword());
+        if (!isMatched) {
+            throw new SignInException("Password does not match.");
+        }
+
+        return findStoreManager.toResponse();
     }
 
     private void checkUserDuplication(String phoneNumber) {
