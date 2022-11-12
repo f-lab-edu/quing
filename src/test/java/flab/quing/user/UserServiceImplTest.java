@@ -11,6 +11,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -26,6 +28,11 @@ class UserServiceImplTest {
 
     @Mock
     StoreManagerRepository storeManagerRepository;
+
+    @Mock
+    PasswordEncoder passwordEncoder;
+
+    final String hashedPassword = "hashedPassword";
 
     @Test
     @DisplayName("사용자 추가 성공")
@@ -57,7 +64,7 @@ class UserServiceImplTest {
         //given
         StoreManager storeManager = StoreManager.builder()
                 .loginId("yuseon")
-                .encryptedPassword("12345")
+                .encryptedPassword(hashedPassword)
                 .name("홍길동")
                 .phoneNumber("010-1234-5678")
                 .build();
@@ -69,6 +76,7 @@ class UserServiceImplTest {
                 .name("홍길동")
                 .phoneNumber("010-1234-5678")
                 .build();
+        when(passwordEncoder.hashPassword(storeManagerRequest.getPassword())).thenReturn(storeManager.getEncryptedPassword());
         when(storeManagerRepository.save(any(StoreManager.class))).thenReturn(storeManager);
 
         //when
@@ -76,5 +84,27 @@ class UserServiceImplTest {
 
         //then
         assertThat(result.getLoginId()).isEqualTo("yuseon");
+    }
+
+    @Test
+    @DisplayName("StoreManager 로그인 성공")
+    void signIn_StoreManager_Success() {
+        //given
+        StoreManager storeManager = StoreManager.builder()
+                .loginId("yuseon")
+                .encryptedPassword(hashedPassword)
+                .name("홍길동")
+                .phoneNumber("010-1234-5678")
+                .build();
+        storeManager.setId(1L);
+        when(storeManagerRepository.findByLoginId("yuseon")).thenReturn(Optional.of(storeManager));
+        when(passwordEncoder.isMatched("1234", hashedPassword)).thenReturn(true);
+
+        //when
+        StoreManagerResponse result = userService.storeSignIn("yuseon", "1234");
+
+        //then
+        assertThat(result.getLoginId()).isEqualTo(storeManager.getLoginId());
+        assertThat(result.getName()).isEqualTo(storeManager.getName());
     }
 }
