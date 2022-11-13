@@ -11,8 +11,8 @@ import lombok.Setter;
 public class StoreManagerResponse {
 
     private String loginId;
-    private String password;
     private String phoneNumber;
     private String name;
+    private long storeId;
 
 }
