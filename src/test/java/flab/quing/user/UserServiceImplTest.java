@@ -4,6 +4,7 @@ import flab.quing.user.dto.StoreManagerRequest;
 import flab.quing.user.dto.StoreManagerResponse;
 import flab.quing.user.dto.UserRequest;
 import flab.quing.user.dto.UserResponse;
+import flab.quing.util.PasswordEncoder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +33,7 @@ class UserServiceImplTest {
     @Mock
     PasswordEncoder passwordEncoder;
 
-    final String hashedPassword = "hashedPassword";
+    final static String HASHED_PASSWORD = "hashedPassword";
 
     @Test
     @DisplayName("사용자 추가 성공")
@@ -64,7 +65,7 @@ class UserServiceImplTest {
         //given
         StoreManager storeManager = StoreManager.builder()
                 .loginId("yuseon")
-                .encryptedPassword(hashedPassword)
+                .encryptedPassword(HASHED_PASSWORD)
                 .name("홍길동")
                 .phoneNumber("010-1234-5678")
                 .build();
@@ -92,13 +93,13 @@ class UserServiceImplTest {
         //given
         StoreManager storeManager = StoreManager.builder()
                 .loginId("yuseon")
-                .encryptedPassword(hashedPassword)
+                .encryptedPassword(HASHED_PASSWORD)
                 .name("홍길동")
                 .phoneNumber("010-1234-5678")
                 .build();
         storeManager.setId(1L);
         when(storeManagerRepository.findByLoginId("yuseon")).thenReturn(Optional.of(storeManager));
-        when(passwordEncoder.isMatched("1234", hashedPassword)).thenReturn(true);
+        when(passwordEncoder.isMatched("1234", HASHED_PASSWORD)).thenReturn(true);
 
         //when
         StoreManagerResponse result = userService.storeSignIn("yuseon", "1234");

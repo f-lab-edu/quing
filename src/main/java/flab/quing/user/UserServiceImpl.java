@@ -7,6 +7,7 @@ import flab.quing.user.dto.UserRequest;
 import flab.quing.user.dto.UserResponse;
 import flab.quing.user.exception.SignInException;
 import flab.quing.user.exception.SignUpException;
+import flab.quing.util.PasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

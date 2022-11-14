@@ -1,4 +1,4 @@
-package flab.quing.user;
+package flab.quing.util;
 
 public interface PasswordEncoder {
     String hashPassword(String rawPassword);
