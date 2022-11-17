@@ -7,7 +7,7 @@ import flab.quing.user.dto.UserRequest;
 import flab.quing.user.dto.UserResponse;
 import flab.quing.user.exception.SignInException;
 import flab.quing.user.exception.SignUpException;
-import flab.quing.util.PasswordEncoder;
+import flab.quing.util.CustomPasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,9 +21,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final StoreManagerRepository storeManagerRepository;
-
-    private final PasswordEncoder passwordEncoder;
-
 
     @Transactional
     @Override
@@ -63,7 +60,7 @@ public class UserServiceImpl implements UserService {
         checkStoreManagerDuplication(storeManagerRequest.getLoginId());
         StoreManager storeManager = StoreManager.builder()
                 .loginId(storeManagerRequest.getLoginId())
-                .encryptedPassword(passwordEncoder.hashPassword(storeManagerRequest.getPassword()))
+                .encryptedPassword(CustomPasswordEncoder.hashPassword(storeManagerRequest.getPassword()))
                 .name(storeManagerRequest.getName())
                 .phoneNumber(storeManagerRequest.getPhoneNumber())
                 .build();
@@ -76,7 +73,7 @@ public class UserServiceImpl implements UserService {
         StoreManager findStoreManager = storeManagerRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new SignInException("User not found."));
 
-        boolean isMatched = passwordEncoder.isMatched(password, findStoreManager.getEncryptedPassword());
+        boolean isMatched = CustomPasswordEncoder.isMatched(password, findStoreManager.getEncryptedPassword());
         if (!isMatched) {
             throw new SignInException("Password does not match.");
         }
