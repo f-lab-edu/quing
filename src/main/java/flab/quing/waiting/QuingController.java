@@ -61,4 +61,25 @@ public class QuingController {
 
         return waitingResponse;
     }
+
+    @PatchMapping
+    private WaitingResponse doneWaiting(
+            @SessionAttribute(name = "AUTH_USER")
+            UserResponse userResponse
+    ) {
+        WaitingResponse waitingResponseByUserId = quingService.getByUserId(userResponse.getUserId());
+
+        return quingService.doneWaiting(waitingResponseByUserId.getId());
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    private void cancelWaiting(
+            @SessionAttribute(name = "AUTH_USER")
+            UserResponse userResponse
+    ) {
+        WaitingResponse waitingResponseByUserId = quingService.getByUserId(userResponse.getUserId());
+
+        quingService.cancelWaiting(waitingResponseByUserId.getId());
+    }
 }
