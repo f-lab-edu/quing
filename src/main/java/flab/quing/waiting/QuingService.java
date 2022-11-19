@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface QuingService {
 
+    WaitingResponse getByUserId(long userId);
+
     WaitingResponse append(WaitingRequest waitingRequest);
 
     List<WaitingResponse> getList(long storeId);
