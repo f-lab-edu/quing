@@ -6,7 +6,9 @@ import flab.quing.waiting.dto.WaitingRequest;
 import flab.quing.waiting.dto.WaitingResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +26,8 @@ public class QuingController {
     private final QuingService quingService;
 
 
-    @GetMapping("")
-    public List<WaitingResponse> list(
+    @GetMapping
+    private List<WaitingResponse> list(
             @SessionAttribute(name = "AUTH_STORE")
             StoreManagerResponse storeManagerResponse
     ) {
@@ -35,15 +37,15 @@ public class QuingController {
     }
 
     @GetMapping("count-forward")
-    public long countForward(@SessionAttribute(name = "AUTH_USER")
+    private long countForward(@SessionAttribute(name = "AUTH_USER")
                              UserResponse userResponse
     ) {
         return quingService.countForward(userResponse.getUserId());
     }
 
-    @PostMapping("")
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public WaitingResponse append(
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    private WaitingResponse append(
             @SessionAttribute(name = "AUTH_USER")
             UserResponse userResponse,
             @RequestBody long storeId
@@ -53,6 +55,10 @@ public class QuingController {
                 .storeId(storeId)
                 .build();
 
-        return quingService.append(waitingRequest);
+        WaitingResponse waitingResponse = quingService.append(waitingRequest);
+
+        quingService.sendRegisterMessage(waitingResponse.getId());
+
+        return waitingResponse;
     }
 }
