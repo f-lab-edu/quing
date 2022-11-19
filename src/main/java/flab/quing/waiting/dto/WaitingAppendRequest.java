@@ -14,5 +14,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class WaitingAppendRequest {
 
-    long userId;
+    long storeId;
 }
