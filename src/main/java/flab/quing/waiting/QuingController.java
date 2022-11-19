@@ -2,6 +2,7 @@ package flab.quing.waiting;
 
 import flab.quing.user.dto.StoreManagerResponse;
 import flab.quing.user.dto.UserResponse;
+import flab.quing.waiting.dto.WaitingAppendRequest;
 import flab.quing.waiting.dto.WaitingRequest;
 import flab.quing.waiting.dto.WaitingResponse;
 import lombok.RequiredArgsConstructor;
@@ -48,11 +49,11 @@ public class QuingController {
     private WaitingResponse append(
             @SessionAttribute(name = "AUTH_USER")
             UserResponse userResponse,
-            @RequestBody long storeId
+            @RequestBody WaitingAppendRequest waitingAppendRequest
     ) {
         WaitingRequest waitingRequest = WaitingRequest.builder()
                 .userId(userResponse.getUserId())
-                .storeId(storeId)
+                .storeId(waitingAppendRequest.getUserId())
                 .build();
 
         WaitingResponse waitingResponse = quingService.append(waitingRequest);
