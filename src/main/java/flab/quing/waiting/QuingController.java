@@ -28,7 +28,7 @@ public class QuingController {
 
 
     @GetMapping
-    private List<WaitingResponse> list(
+    List<WaitingResponse> list(
             @SessionAttribute(name = "AUTH_STORE")
             StoreManagerResponse storeManagerResponse
     ) {
@@ -38,7 +38,7 @@ public class QuingController {
     }
 
     @GetMapping("count-forward")
-    private long countForward(@SessionAttribute(name = "AUTH_USER")
+    long countForward(@SessionAttribute(name = "AUTH_USER")
                              UserResponse userResponse
     ) {
         return quingService.countForward(userResponse.getUserId());
@@ -46,14 +46,14 @@ public class QuingController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    private WaitingResponse append(
+    WaitingResponse append(
             @SessionAttribute(name = "AUTH_USER")
             UserResponse userResponse,
             @RequestBody WaitingAppendRequest waitingAppendRequest
     ) {
         WaitingRequest waitingRequest = WaitingRequest.builder()
                 .userId(userResponse.getUserId())
-                .storeId(waitingAppendRequest.getUserId())
+                .storeId(waitingAppendRequest.getStoreId())
                 .build();
 
         WaitingResponse waitingResponse = quingService.append(waitingRequest);
@@ -64,7 +64,7 @@ public class QuingController {
     }
 
     @PatchMapping
-    private WaitingResponse doneWaiting(
+    WaitingResponse doneWaiting(
             @SessionAttribute(name = "AUTH_USER")
             UserResponse userResponse
     ) {
@@ -75,7 +75,7 @@ public class QuingController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    private void cancelWaiting(
+    void cancelWaiting(
             @SessionAttribute(name = "AUTH_USER")
             UserResponse userResponse
     ) {
