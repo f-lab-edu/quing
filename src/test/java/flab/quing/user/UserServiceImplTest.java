@@ -4,18 +4,21 @@ import flab.quing.user.dto.StoreManagerRequest;
 import flab.quing.user.dto.StoreManagerResponse;
 import flab.quing.user.dto.UserRequest;
 import flab.quing.user.dto.UserResponse;
-import flab.quing.util.PasswordEncoder;
+import flab.quing.util.CustomPasswordEncoder;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,9 +32,6 @@ class UserServiceImplTest {
 
     @Mock
     StoreManagerRepository storeManagerRepository;
-
-    @Mock
-    PasswordEncoder passwordEncoder;
 
     final static String HASHED_PASSWORD = "hashedPassword";
 
@@ -77,14 +77,17 @@ class UserServiceImplTest {
                 .name("홍길동")
                 .phoneNumber("010-1234-5678")
                 .build();
-        when(passwordEncoder.hashPassword(storeManagerRequest.getPassword())).thenReturn(storeManager.getEncryptedPassword());
-        when(storeManagerRepository.save(any(StoreManager.class))).thenReturn(storeManager);
 
-        //when
-        StoreManagerResponse result = userService.storeSignUp(storeManagerRequest);
+        try(MockedStatic mocked = mockStatic(CustomPasswordEncoder.class)) {
+            mocked.when(() -> CustomPasswordEncoder.hashPassword(storeManagerRequest.getPassword())).thenReturn(storeManager.getEncryptedPassword());
+            when(storeManagerRepository.save(any(StoreManager.class))).thenReturn(storeManager);
 
-        //then
-        assertThat(result.getLoginId()).isEqualTo("yuseon");
+            //when
+            StoreManagerResponse result = userService.storeSignUp(storeManagerRequest);
+
+            //then
+            assertThat(result.getLoginId()).isEqualTo("yuseon");
+        }
     }
 
     @Test
@@ -98,14 +101,16 @@ class UserServiceImplTest {
                 .phoneNumber("010-1234-5678")
                 .build();
         storeManager.setId(1L);
-        when(storeManagerRepository.findByLoginId("yuseon")).thenReturn(Optional.of(storeManager));
-        when(passwordEncoder.isMatched("1234", HASHED_PASSWORD)).thenReturn(true);
 
-        //when
-        StoreManagerResponse result = userService.storeSignIn("yuseon", "1234");
+        try(MockedStatic mocked = mockStatic(CustomPasswordEncoder.class)){
+            when(storeManagerRepository.findByLoginId("yuseon")).thenReturn(Optional.of(storeManager));
+            mocked.when(() -> CustomPasswordEncoder.isMatched(anyString(),anyString())).thenReturn(true);
+            //when
+            StoreManagerResponse result = userService.storeSignIn("yuseon", "1234");
 
-        //then
-        assertThat(result.getLoginId()).isEqualTo(storeManager.getLoginId());
-        assertThat(result.getName()).isEqualTo(storeManager.getName());
+            //then
+            assertThat(result.getLoginId()).isEqualTo(storeManager.getLoginId());
+            assertThat(result.getName()).isEqualTo(storeManager.getName());
+        }
     }
 }
