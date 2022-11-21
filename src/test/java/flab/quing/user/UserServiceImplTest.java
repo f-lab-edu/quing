@@ -78,16 +78,12 @@ class UserServiceImplTest {
                 .phoneNumber("010-1234-5678")
                 .build();
 
-        try(MockedStatic mocked = mockStatic(CustomPasswordEncoder.class)) {
-            mocked.when(() -> CustomPasswordEncoder.hashPassword(storeManagerRequest.getPassword())).thenReturn(storeManager.getEncryptedPassword());
-            when(storeManagerRepository.save(any(StoreManager.class))).thenReturn(storeManager);
+        when(storeManagerRepository.save(any(StoreManager.class))).thenReturn(storeManager);
+        StoreManagerResponse result = userService.storeSignUp(storeManagerRequest);
 
-            //when
-            StoreManagerResponse result = userService.storeSignUp(storeManagerRequest);
+        //then
+        assertThat(result.getLoginId()).isEqualTo("yuseon");
 
-            //then
-            assertThat(result.getLoginId()).isEqualTo("yuseon");
-        }
     }
 
     @Test
@@ -101,6 +97,8 @@ class UserServiceImplTest {
                 .phoneNumber("010-1234-5678")
                 .build();
         storeManager.setId(1L);
+
+        when(storeManagerRepository.findByLoginId("yuseon")).thenReturn(Optional.of(storeManager));
 
         try(MockedStatic mocked = mockStatic(CustomPasswordEncoder.class)){
             when(storeManagerRepository.findByLoginId("yuseon")).thenReturn(Optional.of(storeManager));
