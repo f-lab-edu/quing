@@ -30,6 +30,14 @@ public class QuingServiceImpl implements QuingService {
 
     @Override
     @Transactional
+    public WaitingResponse getByUserId(long userId) {
+        return waitingRepository.findByUserIdAndWaitingQueueStatusIs(userId, WaitingQueueStatus.WAITING)
+                .orElseThrow(NoSuchWaitingException::new)
+                .toResponse();
+    }
+
+    @Override
+    @Transactional
     public WaitingResponse append(WaitingRequest waitingRequest) {
         User user = userRepository.findById(waitingRequest.getUserId()).orElseThrow(NoSuchUserException::new);
         Store store = storeRepository.findById(waitingRequest.getStoreId()).orElseThrow(NoSuchStoreException::new);
