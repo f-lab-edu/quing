@@ -1,6 +1,6 @@
 package flab.quing.waiting;
 
-import flab.quing.store.NoSuchStoreException;
+import flab.quing.store.exception.NoSuchStoreException;
 import flab.quing.store.Store;
 import flab.quing.store.StoreRepository;
 import flab.quing.store.exception.NoSuchUserException;
@@ -29,6 +29,14 @@ public class QuingServiceImpl implements QuingService {
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
     private final MessageSender messageSender;
+
+    @Override
+    @Transactional
+    public WaitingResponse getByUserId(long userId) {
+        return waitingRepository.findByUserIdAndWaitingQueueStatusIs(userId, WaitingQueueStatus.WAITING)
+                .orElseThrow(NoSuchWaitingException::new)
+                .toResponse();
+    }
 
     @Override
     @Transactional
