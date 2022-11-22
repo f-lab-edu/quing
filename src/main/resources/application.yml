@@ -32,6 +32,11 @@ springdoc:
 
   cache:
     disabled: true # swagger cache 설정
+
+#spring-session-jdbc
+spring:
+  session:
+    store-type: jdbc
 ---
 spring:
   config:
