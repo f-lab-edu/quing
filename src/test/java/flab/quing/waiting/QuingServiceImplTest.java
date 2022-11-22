@@ -44,6 +44,9 @@ class QuingServiceImplTest {
     @Mock
     WaitingRepository waitingRepository;
 
+    @Mock
+    ConsoleLogMessageSender messageSender;
+
     @BeforeEach
     void beforeEach() {
         DummyDataMaker.init();
@@ -74,7 +77,7 @@ class QuingServiceImplTest {
     }
 
     @Test
-    void appendExistThrowDuplicateException() {
+    void append_exist_throw_exception() {
         //given
         User user = DummyDataMaker.user();
         Store store = DummyDataMaker.store();
@@ -147,6 +150,7 @@ class QuingServiceImplTest {
         Waiting waiting1 = DummyDataMaker.waiting(user1, store);
 
         when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
+        when(messageSender.send(any(),any())).thenCallRealMethod();
 
         //when
         quingService.sendMessage(1L, "test");
@@ -163,6 +167,7 @@ class QuingServiceImplTest {
         Waiting waiting1 = DummyDataMaker.waiting(user1, store);
 
         when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
+        when(messageSender.send(any(),any())).thenCallRealMethod();
 
         //when
         quingService.sendEnterMessage(1L);
@@ -180,6 +185,7 @@ class QuingServiceImplTest {
         Waiting waiting1 = DummyDataMaker.waiting(user1, store);
 
         when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
+        when(messageSender.send(any(),any())).thenCallRealMethod();
 
         //when
         quingService.sendRegisterMessage(1L);

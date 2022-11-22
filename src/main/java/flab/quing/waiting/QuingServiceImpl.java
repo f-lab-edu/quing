@@ -1,6 +1,6 @@
 package flab.quing.waiting;
 
-import flab.quing.store.exception.NoSuchStoreException;
+import flab.quing.store.NoSuchStoreException;
 import flab.quing.store.Store;
 import flab.quing.store.StoreRepository;
 import flab.quing.store.exception.NoSuchUserException;
@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,14 +28,7 @@ public class QuingServiceImpl implements QuingService {
     private final WaitingRepository waitingRepository;
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
-
-    @Override
-    @Transactional
-    public WaitingResponse getByUserId(long userId) {
-        return waitingRepository.findByUserIdAndWaitingQueueStatusIs(userId, WaitingQueueStatus.WAITING)
-                .orElseThrow(NoSuchWaitingException::new)
-                .toResponse();
-    }
+    private final MessageSender messageSender;
 
     @Override
     @Transactional
@@ -44,7 +38,7 @@ public class QuingServiceImpl implements QuingService {
         Waiting waiting = Waiting.of(user, store);
 
         Optional<Waiting> exist = waitingRepository.findByUserIdAndWaitingQueueStatusIs(user.getId(), WaitingQueueStatus.WAITING);
-        if(exist.isPresent()) {
+        if (exist.isPresent()) {
             throw new DuplicateWaitingException();
         }
         Waiting save = waitingRepository.save(waiting);
@@ -69,11 +63,10 @@ public class QuingServiceImpl implements QuingService {
 
     @Override
     public void sendMessage(long waitingId, String message) {
-        //ncloud sms
         Waiting waiting = waitingRepository.findById(waitingId).orElseThrow(NoSuchWaitingException::new);
         User user = waiting.getUser();
-        System.out.println("phoneNumber = " + user.getPhoneNumber());
-        System.out.println("message = " + user.getName()+"님 "+message);
+        messageSender.send(user.getPhoneNumber(),
+                MessageFormat.format("{0} 님 {1}", user.getName(), message));
     }
 
     @Override
