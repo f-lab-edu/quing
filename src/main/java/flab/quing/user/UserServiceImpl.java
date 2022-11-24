@@ -1,5 +1,8 @@
 package flab.quing.user;
 
+import flab.quing.store.Store;
+import flab.quing.store.StoreRepository;
+import flab.quing.store.exception.NoSuchStoreException;
 import flab.quing.store.exception.NoSuchUserException;
 import flab.quing.user.dto.StoreManagerRequest;
 import flab.quing.user.dto.StoreManagerResponse;
