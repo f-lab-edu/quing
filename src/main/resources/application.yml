@@ -7,9 +7,6 @@ boot:
       url: http://localhost:8000
     instance:
       name: quing
-mvc:
-  pathmatch:
-    matching-strategy: ant_path_matcher
 
 #spring actuator
 management:
@@ -25,13 +22,16 @@ management:
 springdoc:
   api-docs:
     path: /docs
-
   swagger-ui:
     path: /swagger-ui
     display-request-duration: true  # try it out 을 했을 때 request duration 을 추가로 찍어줌
-
   cache:
     disabled: true # swagger cache 설정
+
+#spring-session-jdbc
+spring:
+  session:
+    store-type: jdbc
 ---
 spring:
   config:
