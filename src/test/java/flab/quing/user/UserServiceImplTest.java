@@ -1,5 +1,8 @@
 package flab.quing.user;
 
+import flab.quing.DummyDataMaker;
+import flab.quing.store.Store;
+import flab.quing.store.StoreRepository;
 import flab.quing.user.dto.StoreManagerRequest;
 import flab.quing.user.dto.StoreManagerResponse;
 import flab.quing.user.dto.UserRequest;
@@ -15,6 +18,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -25,6 +29,9 @@ class UserServiceImplTest {
 
     @Mock
     UserRepository userRepository;
+
+    @Mock
+    StoreRepository storeRepository;
 
     @Mock
     StoreManagerRepository storeManagerRepository;
@@ -59,19 +66,23 @@ class UserServiceImplTest {
     @DisplayName("StoreManager 회원가입 성공")
     void signUp_StoreManager_Success() {
         //given
+        Store store = DummyDataMaker.store();
+
         StoreManager storeManager = StoreManager.builder()
                 .loginId("yuseon")
                 .encryptedPassword(HASHED_PASSWORD)
                 .name("홍길동")
                 .phoneNumber("010-1234-5678")
+                .store(store)
                 .build();
         storeManager.setId(1L);
 
         StoreManagerRequest storeManagerRequest = StoreManagerRequest.builder()
-                .loginId("yuseon")
-                .password("12345")
-                .name("홍길동")
-                .phoneNumber("010-1234-5678")
+                .loginId(storeManager.getLoginId())
+                .password(storeManager.getEncryptedPassword())
+                .name(storeManager.getName())
+                .phoneNumber(storeManager.getPhoneNumber())
+                .storeId(1L)
                 .build();
 
         when(storeManagerRepository.save(any(StoreManager.class))).thenReturn(storeManager);

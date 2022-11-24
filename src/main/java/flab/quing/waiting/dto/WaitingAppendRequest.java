@@ -1,6 +1,5 @@
 package flab.quing.waiting.dto;
 
-
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +12,7 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class WaitingRequest {
+public class WaitingAppendRequest {
 
-    private long userId;
-
-    private long storeId;
+    long storeId;
 }

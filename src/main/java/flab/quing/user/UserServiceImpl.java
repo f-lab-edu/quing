@@ -22,6 +22,8 @@ public class UserServiceImpl implements UserService {
 
     private final StoreManagerRepository storeManagerRepository;
 
+    private final StoreRepository storeRepository;
+
     @Transactional
     @Override
     public UserResponse signUp(UserRequest userRequest) {
@@ -58,11 +60,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public StoreManagerResponse storeSignUp(StoreManagerRequest storeManagerRequest) {
         checkStoreManagerDuplication(storeManagerRequest.getLoginId());
+
+        Store store = storeRepository.findById(storeManagerRequest.getStoreId())
+                .orElseThrow(NoSuchStoreException::new);
+
         StoreManager storeManager = StoreManager.builder()
                 .loginId(storeManagerRequest.getLoginId())
                 .encryptedPassword(CustomPasswordEncoder.hashPassword(storeManagerRequest.getPassword()))
                 .name(storeManagerRequest.getName())
                 .phoneNumber(storeManagerRequest.getPhoneNumber())
+                .store(store)
                 .build();
         StoreManager createdStoreManager = storeManagerRepository.save(storeManager);
         return createdStoreManager.toResponse();

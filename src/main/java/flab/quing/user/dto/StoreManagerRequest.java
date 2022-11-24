@@ -22,4 +22,6 @@ public class StoreManagerRequest {
 
     private String phoneNumber;
 
+    private long storeId;
+
 }
