@@ -1,4 +1,4 @@
-package flab.quing.user.dto;
+package flab.quing.waiting.dto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -9,13 +9,10 @@ import lombok.Setter;
 
 @Data
 @Setter(AccessLevel.NONE)
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-public class UserRequest {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+public class WaitingAppendRequest {
 
-    private String name;
-
-    private String phoneNumber;
-
+    long storeId;
 }
