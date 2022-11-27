@@ -85,6 +85,7 @@ class UserServiceImplTest {
                 .storeId(1L)
                 .build();
 
+        when(storeRepository.findById(anyLong())).thenReturn(Optional.of(store));
         when(storeManagerRepository.save(any(StoreManager.class))).thenReturn(storeManager);
 
         //when
@@ -99,11 +100,14 @@ class UserServiceImplTest {
     @DisplayName("StoreManager 로그인 성공")
     void signIn_StoreManager_Success() {
         //given
+        Store store = DummyDataMaker.store();
+
         StoreManager storeManager = StoreManager.builder()
                 .loginId("yuseon")
                 .encryptedPassword(HASHED_PASSWORD)
                 .name("홍길동")
                 .phoneNumber("010-1234-5678")
+                .store(store)
                 .build();
         storeManager.setId(1L);
 
