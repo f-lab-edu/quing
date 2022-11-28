@@ -6,6 +6,7 @@ import flab.quing.store.exception.NoSuchStoreException;
 import flab.quing.store.exception.NoSuchUserException;
 import flab.quing.user.dto.StoreManagerRequest;
 import flab.quing.user.dto.StoreManagerResponse;
+import flab.quing.user.dto.UpdateUserNameRequest;
 import flab.quing.user.dto.UserRequest;
 import flab.quing.user.dto.UserResponse;
 import flab.quing.user.exception.SignInException;
@@ -39,10 +40,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateUserName(UserRequest userRequest) {
-        User user = userRepository.findByPhoneNumber(userRequest.getPhoneNumber())
+    public UserResponse updateUserName(UpdateUserNameRequest updateUserNameRequest) {
+        User user = userRepository.findByPhoneNumber(updateUserNameRequest.getPhoneNumber())
                 .orElseThrow(NoSuchUserException::new);
-        user.setName(userRequest.getName());
+        user.setName(updateUserNameRequest.getUserName());
         return user.toResponse();
     }
 
