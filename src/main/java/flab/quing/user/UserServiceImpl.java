@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
     public UserResponse signUp(UserRequest userRequest) {
         checkUserDuplication(userRequest.getPhoneNumber());
         User user = User.builder()
-                .name(userRequest.getName())
                 .phoneNumber(userRequest.getPhoneNumber())
                 .build();
         User createdUser = userRepository.save(user);

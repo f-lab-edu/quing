@@ -14,8 +14,6 @@ import lombok.Setter;
 @Builder
 public class UserRequest {
 
-    private String name;
-
     private String phoneNumber;
 
 }
