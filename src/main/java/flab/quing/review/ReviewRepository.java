@@ -9,5 +9,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> findAllByWaitingStoreIdAndDeletedIsFalse(long storeId);
 
+    List<Review> findAllByWaitingUserIdAndDeletedIsFalse(long userId);
+
     Optional<Review> findTopByWaitingIdOrderByIdDesc(long waitingId);
 }
