@@ -1,5 +1,6 @@
 package flab.quing.review;
 
+import flab.quing.review.dto.ReviewDeleteRequest;
 import flab.quing.review.dto.ReviewRequest;
 import flab.quing.review.dto.ReviewResponse;
 import flab.quing.waiting.exception.NoSuchWaitingException;
@@ -42,9 +43,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional
     @Override
-    public ReviewResponse hide(long reviewId) {
-        Review review = reviewRepository.findById(reviewId)
+    public ReviewResponse hide(ReviewDeleteRequest reviewDeleteRequest) {
+
+        Review review = reviewRepository.findById(reviewDeleteRequest.getReviewId())
                 .orElseThrow(NoSuchReviewException::new);
+        if (review.getUser().getId() != reviewDeleteRequest.getUserId()) {
+            throw new RuntimeException("Delete denied: Not User's Review");
+        }
         review.hide();
         return review.toResponse();
     }
