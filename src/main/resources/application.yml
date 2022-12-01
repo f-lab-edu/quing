@@ -42,9 +42,14 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
   jpa:
-    show-sql: true
+#    show-sql: true
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
 ---
 spring:
   config:
