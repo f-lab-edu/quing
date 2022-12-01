@@ -60,11 +60,9 @@ class QuingControllerTest {
     @Test
     void 대기_등록(CapturedOutput output) {
         //given
-        Store store = DummyDataMaker.store();
-        storeRepository.save(store);
+        Store store = storeRepository.save(DummyDataMaker.store());
 
-        User user = DummyDataMaker.user();
-        userRepository.save(user);
+        User user = userRepository.save(DummyDataMaker.user());
 
         Waiting waiting = DummyDataMaker.waiting(user, store);
 
@@ -85,8 +83,7 @@ class QuingControllerTest {
         //given
         final long userCount = 5;
 
-        Store store = DummyDataMaker.store();
-        storeRepository.save(store);
+        Store store = storeRepository.save(DummyDataMaker.store());
 
         List<User> users = new ArrayList<>();
 
@@ -113,13 +110,12 @@ class QuingControllerTest {
         //given
         final long userCount = 5;
 
-        Store store = DummyDataMaker.store();
-        storeRepository.save(store);
+        Store store = storeRepository.save(DummyDataMaker.store());
 
-        StoreManager storeManager = StoreManager.builder()
+        StoreManager storeManager = storeManagerRepository.save(StoreManager.builder()
+                .name("test manager")
                 .store(store)
-                .build();
-        storeManagerRepository.save(storeManager);
+                .build());
 
         for (int i = 0; i < userCount; i++) {
             User user = userRepository.save(DummyDataMaker.user());
@@ -141,11 +137,8 @@ class QuingControllerTest {
     @Test
     void 입장_완료() {
         //given
-        Store store = DummyDataMaker.store();
-        storeRepository.save(store);
-
-        User user = DummyDataMaker.user();
-        userRepository.save(user);
+        Store store = storeRepository.save(DummyDataMaker.store());
+        User user = userRepository.save(DummyDataMaker.user());
 
         WaitingAppendRequest waitingAppendRequest = WaitingAppendRequest.builder()
                 .storeId(store.getId())
@@ -166,11 +159,8 @@ class QuingControllerTest {
     @Test
     void 대기_취소() {
         //given
-        Store store = DummyDataMaker.store();
-        storeRepository.save(store);
-
-        User user = DummyDataMaker.user();
-        userRepository.save(user);
+        Store store = storeRepository.save(DummyDataMaker.store());
+        User user = userRepository.save(DummyDataMaker.user());
 
         WaitingAppendRequest waitingAppendRequest = WaitingAppendRequest.builder()
                 .storeId(store.getId())
