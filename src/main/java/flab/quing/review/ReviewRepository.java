@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
+    Optional<Review> findByIdAndDeletedIsFalse(long reviewId);
+
     List<Review> findAllByWaitingStoreIdAndDeletedIsFalse(long storeId);
 
     List<Review> findAllByWaitingUserIdAndDeletedIsFalse(long userId);

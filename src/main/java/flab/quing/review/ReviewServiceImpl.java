@@ -56,7 +56,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public ReviewResponse getByReviewId(long reviewId) {
-        return reviewRepository.findById(reviewId)
+        return reviewRepository.findByIdAndDeletedIsFalse(reviewId)
                 .orElseThrow(NoSuchReviewException::new).toResponse();
     }
 
