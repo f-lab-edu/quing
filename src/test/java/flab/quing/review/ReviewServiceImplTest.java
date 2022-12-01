@@ -1,6 +1,7 @@
 package flab.quing.review;
 
 import flab.quing.DummyDataMaker;
+import flab.quing.review.dto.ReviewDeleteRequest;
 import flab.quing.review.dto.ReviewRequest;
 import flab.quing.review.dto.ReviewResponse;
 import flab.quing.store.Store;
@@ -140,7 +141,12 @@ class ReviewServiceImplTest {
 
         when(reviewRepository.findById(anyLong())).thenReturn(Optional.of(review));
 
-        ReviewResponse response = reviewService.hide(review.getId());
+        ReviewResponse response = reviewService.hide(
+                ReviewDeleteRequest.builder()
+                .reviewId(review.getId())
+                .userId(user.getId())
+                .build()
+        );
 
         System.out.println("response = " + response);
         System.out.println("review = " + review.isDeleted());
@@ -155,7 +161,7 @@ class ReviewServiceImplTest {
         Waiting waiting = DummyDataMaker.waiting(user, store);
         Review review = DummyDataMaker.review(user, waiting);
 
-        when(reviewRepository.findById(anyLong())).thenReturn(Optional.of(review));
+        when(reviewRepository.findByIdAndDeletedIsFalse(anyLong())).thenReturn(Optional.of(review));
 
         ReviewResponse reviewResponse = reviewService.getByReviewId(review.getId());
         System.out.println("reviewResponse = " + reviewResponse);
@@ -190,7 +196,7 @@ class ReviewServiceImplTest {
 
         when(reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(store.getId())).thenReturn(List.of(review1, review2));
 
-        List<ReviewResponse> responseList = reviewService.getList(store.getId());
+        List<ReviewResponse> responseList = reviewService.getListByStoreId(store.getId());
         responseList.stream().forEach(System.out::println);
 
         assertThat(responseList.size()).isEqualTo(2);
