@@ -13,6 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class UpdateUserNameRequest {
-    String phoneNumber;
-    String userName;
+    private String phoneNumber;
+    private String userName;
 }
