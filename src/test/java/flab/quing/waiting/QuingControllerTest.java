@@ -10,6 +10,8 @@ import flab.quing.user.UserRepository;
 import flab.quing.waiting.dto.WaitingAppendRequest;
 import flab.quing.waiting.dto.WaitingResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,16 @@ class QuingControllerTest {
 
     @Autowired
     StoreManagerRepository storeManagerRepository;
+
+    @BeforeEach
+    void before() {
+        DummyDataMaker.setWithId(false);
+    }
+
+    @AfterEach
+    void after() {
+        DummyDataMaker.setWithId(true);
+    }
 
 
     @Test

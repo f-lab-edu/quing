@@ -11,6 +11,7 @@ import java.util.List;
 public class DummyDataMaker {
 
     static long userCount, storeCount, waitingCount, reviewCount;
+    static boolean withId = true;
 
     public static void init() {
         userCount = 0;
@@ -19,13 +20,20 @@ public class DummyDataMaker {
         reviewCount = 0;
     }
 
+    public static void setWithId(boolean flag) {
+        withId = flag;
+    }
+
     public static User user() {
         userCount++;
         User user = User.builder()
                 .name("TestUser" + userCount)
                 .phoneNumber("010-1234-" + String.format("%04d", userCount))
                 .build();
-        user.setId(userCount);
+
+        if (withId) {
+            user.setId(userCount);
+        }
         return user;
     }
 
@@ -35,7 +43,11 @@ public class DummyDataMaker {
                 .name(name)
                 .phoneNumber("010-1234-" + String.format("%04d", userCount))
                 .build();
-        user.setId(userCount);
+
+        if (withId) {
+            user.setId(userCount);
+        }
+
         return user;
     }
 
@@ -49,7 +61,11 @@ public class DummyDataMaker {
                 .openStatus("영업중/마감")
                 .pageLink("storeLink")
                 .build();
-        store.setId(storeCount);
+
+        if (withId) {
+            store.setId(storeCount);
+        }
+
         return store;
     }
 
@@ -61,7 +77,11 @@ public class DummyDataMaker {
                 .waitingQueueStatus(WaitingQueueStatus.WAITING)
                 .callCount(0)
                 .build();
-        waiting.setId(waitingCount);
+
+        if (withId) {
+            waiting.setId(waitingCount);
+        }
+
         return waiting;
     }
 
@@ -74,7 +94,11 @@ public class DummyDataMaker {
                 .rating(10)
                 .imageUrls(List.of("link1", "link2"))
                 .build();
-        review.setId(reviewCount);
+
+        if (withId) {
+            review.setId(reviewCount);
+        }
+
         return review;
     }
 
@@ -87,7 +111,11 @@ public class DummyDataMaker {
                 .rating(10)
                 .imageUrls(List.of("link1", "link2"))
                 .build();
-        review.setId(reviewCount);
+
+        if (withId) {
+            review.setId(reviewCount);
+        }
+
         return review;
     }
 }
