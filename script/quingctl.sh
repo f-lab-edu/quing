@@ -22,8 +22,17 @@ SPRING_OPTIONS="$SPRING_CONF_DIR$SPRING_ACTIVE_PROFILE"
 start () {
   PS_COUNT=$(ps -ef |grep quing | grep java | grep -v watch | wc -l)
   if [ 1 -eq $PS_COUNT ]; then
-    echo "Quing Already Running"
-    exit 1
+    if [ $(cat $PID_FILE) -eq $(ps -ef |grep java |grep quing | grep -v watch |  awk '{print $2}') ]; then
+      echo "Quing Already Running"
+      exit 1
+    else
+      echo "비정상종료.. clean up and start"
+      rm $PID_FILE
+      rm $LOG_FILE
+      pkill java
+      sleep 3
+    fi
+
   fi
 
   echo "git pull"
@@ -90,5 +99,9 @@ status)
 restart)
   stop
   start
+  ;;
+*)
+  echo "Usage: $0 {start|stop|restart|status}"
+  exit 1
   ;;
 esac
