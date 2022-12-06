@@ -51,7 +51,8 @@ public class Review extends BaseEntity {
     }
 
     public ReviewResponse toResponse() {
-        ReviewResponse reviewResponse = ReviewResponse.builder()
+        return ReviewResponse.builder()
+                .id(getId())
                 .userId(user.getId())
                 .userName(user.getName())
                 .storeId(waiting.getStore().getId())
@@ -60,7 +61,6 @@ public class Review extends BaseEntity {
                 .message(message)
                 .imageUrls(imageUrls)
                 .build();
-        return reviewResponse;
     }
 
     public void updateFrom(ReviewRequest reviewRequest) {

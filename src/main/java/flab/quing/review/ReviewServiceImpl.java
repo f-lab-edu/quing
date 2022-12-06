@@ -1,5 +1,6 @@
 package flab.quing.review;
 
+import flab.quing.review.dto.ReviewDeleteRequest;
 import flab.quing.review.dto.ReviewRequest;
 import flab.quing.review.dto.ReviewResponse;
 import flab.quing.waiting.exception.NoSuchWaitingException;
@@ -42,16 +43,20 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Transactional
     @Override
-    public ReviewResponse hide(long reviewId) {
-        Review review = reviewRepository.findById(reviewId)
+    public ReviewResponse hide(ReviewDeleteRequest reviewDeleteRequest) {
+
+        Review review = reviewRepository.findById(reviewDeleteRequest.getReviewId())
                 .orElseThrow(NoSuchReviewException::new);
+        if (review.getUser().getId() != reviewDeleteRequest.getUserId()) {
+            throw new RuntimeException("Delete denied: Not User's Review");
+        }
         review.hide();
         return review.toResponse();
     }
 
     @Override
     public ReviewResponse getByReviewId(long reviewId) {
-        return reviewRepository.findById(reviewId)
+        return reviewRepository.findByIdAndDeletedIsFalse(reviewId)
                 .orElseThrow(NoSuchReviewException::new).toResponse();
     }
 
@@ -62,8 +67,16 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewResponse> getList(long storeId) {
+    public List<ReviewResponse> getListByStoreId(long storeId) {
         return reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(storeId)
+                .stream()
+                .map(Review::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ReviewResponse> getListByUserId(long userId) {
+        return reviewRepository.findAllByWaitingUserIdAndDeletedIsFalse(userId)
                 .stream()
                 .map(Review::toResponse)
                 .collect(Collectors.toList());

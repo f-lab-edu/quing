@@ -10,21 +10,12 @@ import java.util.List;
 @Data
 @Setter(AccessLevel.NONE)
 @Builder
-public class ReviewResponse {
+public class ReviewPostRequest {
 
-    private long id;
-
-    private long userId;
-
-    private String userName;
-
-    private long storeId;
-
-    private String storeName;
-
-    private float rating;
+    private int rating;
 
     private String message;
 
     private List<String> imageUrls;
+
 }
