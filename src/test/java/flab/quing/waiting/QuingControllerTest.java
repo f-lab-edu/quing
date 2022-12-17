@@ -10,8 +10,6 @@ import flab.quing.user.UserRepository;
 import flab.quing.waiting.dto.WaitingAppendRequest;
 import flab.quing.waiting.dto.WaitingResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,25 +44,16 @@ class QuingControllerTest {
     @Autowired
     StoreManagerRepository storeManagerRepository;
 
-    @BeforeEach
-    void before() {
-        DummyDataMaker.setWithId(false);
-    }
-
-    @AfterEach
-    void after() {
-        DummyDataMaker.setWithId(true);
-    }
-
+    DummyDataMaker dummyDataMaker = DummyDataMaker.builder().withId(false).build();
 
     @Test
     void 대기_등록(CapturedOutput output) {
         //given
-        Store store = storeRepository.save(DummyDataMaker.store());
+        Store store = storeRepository.save(dummyDataMaker.store());
 
-        User user = userRepository.save(DummyDataMaker.user());
+        User user = userRepository.save(dummyDataMaker.user());
 
-        Waiting waiting = DummyDataMaker.waiting(user, store);
+        Waiting waiting = dummyDataMaker.waiting(user, store);
 
         WaitingAppendRequest waitingAppendRequest = WaitingAppendRequest.builder()
                 .storeId(store.getId())
@@ -83,12 +72,12 @@ class QuingControllerTest {
         //given
         final long userCount = 5;
 
-        Store store = storeRepository.save(DummyDataMaker.store());
+        Store store = storeRepository.save(dummyDataMaker.store());
 
         List<User> users = new ArrayList<>();
 
         for (int i = 0; i < userCount; i++) {
-            User user = userRepository.save(DummyDataMaker.user());
+            User user = userRepository.save(dummyDataMaker.user());
             users.add(user);
 
             WaitingAppendRequest waitingAppendRequest = WaitingAppendRequest.builder()
@@ -110,7 +99,7 @@ class QuingControllerTest {
         //given
         final long userCount = 5;
 
-        Store store = storeRepository.save(DummyDataMaker.store());
+        Store store = storeRepository.save(dummyDataMaker.store());
 
         StoreManager storeManager = storeManagerRepository.save(StoreManager.builder()
                 .name("test manager")
@@ -118,7 +107,7 @@ class QuingControllerTest {
                 .build());
 
         for (int i = 0; i < userCount; i++) {
-            User user = userRepository.save(DummyDataMaker.user());
+            User user = userRepository.save(dummyDataMaker.user());
 
             WaitingAppendRequest waitingAppendRequest = WaitingAppendRequest.builder()
                     .storeId(store.getId())
@@ -137,8 +126,8 @@ class QuingControllerTest {
     @Test
     void 입장_완료() {
         //given
-        Store store = storeRepository.save(DummyDataMaker.store());
-        User user = userRepository.save(DummyDataMaker.user());
+        Store store = storeRepository.save(dummyDataMaker.store());
+        User user = userRepository.save(dummyDataMaker.user());
 
         WaitingAppendRequest waitingAppendRequest = WaitingAppendRequest.builder()
                 .storeId(store.getId())
@@ -159,8 +148,8 @@ class QuingControllerTest {
     @Test
     void 대기_취소() {
         //given
-        Store store = storeRepository.save(DummyDataMaker.store());
-        User user = userRepository.save(DummyDataMaker.user());
+        Store store = storeRepository.save(dummyDataMaker.store());
+        User user = userRepository.save(dummyDataMaker.user());
 
         WaitingAppendRequest waitingAppendRequest = WaitingAppendRequest.builder()
                 .storeId(store.getId())

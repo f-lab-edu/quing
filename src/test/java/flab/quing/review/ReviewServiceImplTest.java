@@ -39,10 +39,11 @@ class ReviewServiceImplTest {
     @Mock
     WaitingRepository waitingRepository;
 
+    DummyDataMaker dummyDataMaker = DummyDataMaker.builder().withId(true).build();
 
     @BeforeEach
     void init() {
-        DummyDataMaker.init();
+        dummyDataMaker.init();
     }
 
     @Test
@@ -96,12 +97,12 @@ class ReviewServiceImplTest {
 
     @Test
     void update() {
-        User user = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting = DummyDataMaker.waiting(user, store);
+        User user = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting = dummyDataMaker.waiting(user, store);
 
-        Review review1 = DummyDataMaker.review(user, waiting, "review1");
-        Review review2 = DummyDataMaker.review(user, waiting, "review2");
+        Review review1 = dummyDataMaker.review(user, waiting, "review1");
+        Review review2 = dummyDataMaker.review(user, waiting, "review2");
 
         ReviewRequest reviewRequest1 = ReviewRequest.builder()
                 .userId(user.getId())
@@ -134,10 +135,10 @@ class ReviewServiceImplTest {
     @Test
     void hide() {
         //delete필드가 잘 바뀌는지?
-        User user = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting = DummyDataMaker.waiting(user, store);
-        Review review = DummyDataMaker.review(user, waiting);
+        User user = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting = dummyDataMaker.waiting(user, store);
+        Review review = dummyDataMaker.review(user, waiting);
 
         when(reviewRepository.findById(anyLong())).thenReturn(Optional.of(review));
 
@@ -156,10 +157,10 @@ class ReviewServiceImplTest {
     @Test
     void get() {
         //review id로 review를 잘 가져오는지..
-        User user = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting = DummyDataMaker.waiting(user, store);
-        Review review = DummyDataMaker.review(user, waiting);
+        User user = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting = dummyDataMaker.waiting(user, store);
+        Review review = dummyDataMaker.review(user, waiting);
 
         when(reviewRepository.findByIdAndDeletedIsFalse(anyLong())).thenReturn(Optional.of(review));
 
@@ -171,10 +172,10 @@ class ReviewServiceImplTest {
     @Test
     void find() {
 
-        User user = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting = DummyDataMaker.waiting(user, store);
-        Review review = DummyDataMaker.review(user, waiting);
+        User user = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting = dummyDataMaker.waiting(user, store);
+        Review review = dummyDataMaker.review(user, waiting);
 
         when(reviewRepository.findTopByWaitingIdOrderByIdDesc(waiting.getId())).thenReturn(Optional.of(review));
 
@@ -186,18 +187,18 @@ class ReviewServiceImplTest {
 
     @Test
     void getList() {
-        User user1 = DummyDataMaker.user();
-        User user2 = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
-        Waiting waiting2 = DummyDataMaker.waiting(user2, store);
-        Review review1 = DummyDataMaker.review(user1, waiting1);
-        Review review2 = DummyDataMaker.review(user2, waiting2);
+        User user1 = dummyDataMaker.user();
+        User user2 = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting1 = dummyDataMaker.waiting(user1, store);
+        Waiting waiting2 = dummyDataMaker.waiting(user2, store);
+        Review review1 = dummyDataMaker.review(user1, waiting1);
+        Review review2 = dummyDataMaker.review(user2, waiting2);
 
         when(reviewRepository.findAllByWaitingStoreIdAndDeletedIsFalse(store.getId())).thenReturn(List.of(review1, review2));
 
         List<ReviewResponse> responseList = reviewService.getListByStoreId(store.getId());
-        responseList.stream().forEach(System.out::println);
+        responseList.forEach(System.out::println);
 
         assertThat(responseList.size()).isEqualTo(2);
         assertThat(responseList.get(0).getStoreName()).isEqualTo("TestStore1");

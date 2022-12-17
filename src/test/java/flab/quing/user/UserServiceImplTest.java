@@ -36,6 +36,8 @@ class UserServiceImplTest {
     @Mock
     StoreManagerRepository storeManagerRepository;
 
+    DummyDataMaker dummyDataMaker = DummyDataMaker.builder().withId(true).build();
+
     final static String HASHED_PASSWORD = "b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86";
 
     @Test
@@ -65,7 +67,7 @@ class UserServiceImplTest {
     @DisplayName("StoreManager 회원가입 성공")
     void signUp_StoreManager_Success() {
         //given
-        Store store = DummyDataMaker.store();
+        Store store = dummyDataMaker.store();
 
         StoreManager storeManager = StoreManager.builder()
                 .loginId("yuseon")
@@ -99,7 +101,7 @@ class UserServiceImplTest {
     @DisplayName("StoreManager 로그인 성공")
     void signIn_StoreManager_Success() {
         //given
-        Store store = DummyDataMaker.store();
+        Store store = dummyDataMaker.store();
 
         StoreManager storeManager = StoreManager.builder()
                 .loginId("yuseon")

@@ -29,11 +29,12 @@ class QuingServiceIntegrationTest {
     @Autowired
     StoreRepository storeRepository;
 
+    DummyDataMaker dummyDataMaker = DummyDataMaker.builder().withId(false).build();
 
     @Test
     void append() {
-        User user = userRepository.save(DummyDataMaker.user());
-        Store store = storeRepository.save(DummyDataMaker.store());
+        User user = userRepository.save(dummyDataMaker.user());
+        Store store = storeRepository.save(dummyDataMaker.store());
 
         WaitingRequest waitingRequest = WaitingRequest.builder()
                 .storeId(user.getId())
@@ -52,13 +53,13 @@ class QuingServiceIntegrationTest {
 
     @Test
     void countForward() {
-        Store store = storeRepository.save(DummyDataMaker.store());
+        Store store = storeRepository.save(dummyDataMaker.store());
         log.info("storeRepository = " + storeRepository.findAll());
 
-        User user1 = userRepository.save(DummyDataMaker.user());
-        User user2 = userRepository.save(DummyDataMaker.user());
-        User user3 = userRepository.save(DummyDataMaker.user());
-        User user4 = userRepository.save(DummyDataMaker.user());
+        User user1 = userRepository.save(dummyDataMaker.user());
+        User user2 = userRepository.save(dummyDataMaker.user());
+        User user4 = userRepository.save(dummyDataMaker.user());
+        User user3 = userRepository.save(dummyDataMaker.user());
         log.info("userRepository = " + userRepository.findAll());
 
         WaitingRequest waitingRequest1 = WaitingRequest.builder()
