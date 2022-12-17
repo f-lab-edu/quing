@@ -50,7 +50,6 @@ class UserServiceImplTest {
 
         UserRequest userRequest = UserRequest.builder()
                 .phoneNumber("010-1234-5678")
-                .name("홍길동")
                 .build();
 
         when(userRepository.save(any(User.class))).thenReturn(user);

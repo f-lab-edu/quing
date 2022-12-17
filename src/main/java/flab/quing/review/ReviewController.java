@@ -50,7 +50,7 @@ public class ReviewController {
         return reviewService.create(reviewRequest);
     }
 
-    @GetMapping("userReviewList")
+    @GetMapping("user-review-list")
     List<ReviewResponse> userReviewList(
             @SessionAttribute(name = "AUTH_USER")
             UserResponse userResponse
@@ -58,7 +58,7 @@ public class ReviewController {
         return reviewService.getListByUserId(userResponse.getUserId());
     }
 
-    @GetMapping("storeReviewList")
+    @GetMapping("store-review-list")
     List<ReviewResponse> storeReviewList(
             @SessionAttribute(name = "AUTH_STORE")
             StoreManagerResponse storeManagerResponse
