@@ -35,9 +35,9 @@ start () {
 
   fi
 
-  echo "git pull"
-  cd $APP_HOME
-  git pull
+#  echo "git pull"
+#  cd $APP_HOME
+#  git pull
 
   nohup $JAVA_HOME/bin/java -jar $JAR_FULLPATH $JVM_OPTIONS $SPRING_OPTIONS >$LOG_FILE 2>&1 &
   echo "$!" >$PID_FILE
