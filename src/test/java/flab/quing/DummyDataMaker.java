@@ -2,29 +2,33 @@ package flab.quing;
 
 import flab.quing.review.Review;
 import flab.quing.store.Store;
+import flab.quing.user.StoreManager;
 import flab.quing.user.User;
 import flab.quing.waiting.Waiting;
 import flab.quing.waiting.WaitingQueueStatus;
+import lombok.Builder;
 
 import java.util.List;
 
 public class DummyDataMaker {
 
-    static long userCount, storeCount, waitingCount, reviewCount;
-    static boolean withId = true;
+    boolean withId;
+    long userCount, storeCount, waitingCount, reviewCount, storeManagerCount;
 
-    public static void init() {
+    public void init() {
         userCount = 0;
         storeCount = 0;
         waitingCount = 0;
         reviewCount = 0;
+        storeManagerCount = 0;
     }
 
-    public static void setWithId(boolean flag) {
-        withId = flag;
+    @Builder
+    public DummyDataMaker(boolean withId) {
+        this.withId = withId;
     }
 
-    public static User user() {
+    public User user() {
         userCount++;
         User user = User.builder()
                 .name("TestUser" + userCount)
@@ -37,21 +41,7 @@ public class DummyDataMaker {
         return user;
     }
 
-    public static User user(String name) {
-        userCount++;
-        User user = User.builder()
-                .name(name)
-                .phoneNumber("010-1234-" + String.format("%04d", userCount))
-                .build();
-
-        if (withId) {
-            user.setId(userCount);
-        }
-
-        return user;
-    }
-
-    public static Store store() {
+    public Store store() {
         storeCount++;
         Store store = Store.builder()
                 .name("TestStore" + storeCount)
@@ -69,7 +59,7 @@ public class DummyDataMaker {
         return store;
     }
 
-    public static Waiting waiting(User user, Store store) {
+    public Waiting waiting(User user, Store store) {
         waitingCount++;
         Waiting waiting = Waiting.builder()
                 .user(user)
@@ -85,7 +75,7 @@ public class DummyDataMaker {
         return waiting;
     }
 
-    public static Review review(User user, Waiting waiting) {
+    public Review review(User user, Waiting waiting) {
         reviewCount++;
         Review review = Review.builder()
                 .user(user)
@@ -102,7 +92,7 @@ public class DummyDataMaker {
         return review;
     }
 
-    public static Review review(User user, Waiting waiting, String message) {
+    public Review review(User user, Waiting waiting, String message) {
         reviewCount++;
         Review review = Review.builder()
                 .user(user)
@@ -117,5 +107,21 @@ public class DummyDataMaker {
         }
 
         return review;
+    }
+
+    public StoreManager storeManager(Store store) {
+        StoreManager storeManager = StoreManager.builder()
+                .loginId("testStoreManager")
+                .encryptedPassword("b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86")
+                .name("홍길동")
+                .phoneNumber("010-1234-" + String.format("%04d", storeManagerCount))
+                .store(store)
+                .build();
+        storeManager.setId(storeManagerCount);
+
+        if (withId) {
+            storeManager.setId(storeManagerCount);
+        }
+        return storeManager;
     }
 }
