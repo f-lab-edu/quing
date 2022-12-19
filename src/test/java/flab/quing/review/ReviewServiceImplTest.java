@@ -11,7 +11,6 @@ import flab.quing.waiting.Waiting;
 import flab.quing.waiting.WaitingQueueStatus;
 import flab.quing.waiting.WaitingRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -162,7 +161,7 @@ class ReviewServiceImplTest {
 
         ReviewResponse reviewResponse = reviewService.getByReviewId(review.getId());
         System.out.println("reviewResponse = " + reviewResponse);
-        assertThat(reviewResponse.getMessage()).isEqualTo("review1");
+        assertThat(reviewResponse.getMessage()).isEqualTo(review.getMessage());
     }
 
     @Test
@@ -197,6 +196,6 @@ class ReviewServiceImplTest {
         responseList.forEach(System.out::println);
 
         assertThat(responseList.size()).isEqualTo(2);
-        assertThat(responseList.get(0).getStoreName()).isEqualTo("TestStore1");
+        assertThat(responseList.get(0).getStoreName()).isEqualTo(store.getName());
     }
 }

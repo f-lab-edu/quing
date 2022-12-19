@@ -9,7 +9,6 @@ import flab.quing.waiting.dto.WaitingRequest;
 import flab.quing.waiting.dto.WaitingResponse;
 import flab.quing.waiting.exception.DuplicateWaitingException;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -70,7 +69,7 @@ class QuingServiceImplTest {
         log.debug("waitingResponse = " + waitingResponse);
 
         //then
-        assertThat(waitingResponse.getId()).isEqualTo(1);
+        assertThat(waitingResponse.getId()).isEqualTo(waiting.getId());
     }
 
     @Test
@@ -111,7 +110,7 @@ class QuingServiceImplTest {
                 .thenReturn(List.of(waiting1, waiting2, waiting3));
 
         //when
-        List<WaitingResponse> result = quingService.getList(1L);
+        List<WaitingResponse> result = quingService.getList(store.getId());
 
         //then
         assertThat(result.size()).isEqualTo(3);
@@ -129,12 +128,12 @@ class QuingServiceImplTest {
         Waiting waiting2 = dummyDataMaker.waiting(user2, store);
         Waiting waiting3 = dummyDataMaker.waiting(user3, store);
 
-        when(waitingRepository.findById(3L)).thenReturn(Optional.of(waiting3));
+        when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting3));
         when(waitingRepository.findAllByStoreIdAndWaitingQueueStatusIs(anyLong(), any(WaitingQueueStatus.class)))
                 .thenReturn(List.of(waiting1, waiting2, waiting3));
 
         //when
-        int index = quingService.countForward(3L);
+        int index = quingService.countForward(waiting3.getId());
 
         //then
         assertThat(index).isEqualTo(2);
@@ -147,11 +146,11 @@ class QuingServiceImplTest {
         Store store = dummyDataMaker.store();
         Waiting waiting1 = dummyDataMaker.waiting(user1, store);
 
-        when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
+        when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting1));
         when(messageSender.send(any(), any())).thenCallRealMethod();
 
         //when
-        quingService.sendMessage(1L, "test");
+        quingService.sendMessage(waiting1.getId(), "test");
 
         //then
         assertThat(output).contains("test");
@@ -164,11 +163,11 @@ class QuingServiceImplTest {
         Store store = dummyDataMaker.store();
         Waiting waiting1 = dummyDataMaker.waiting(user1, store);
 
-        when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
+        when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting1));
         when(messageSender.send(any(), any())).thenCallRealMethod();
 
         //when
-        quingService.sendEnterMessage(1L);
+        quingService.sendEnterMessage(waiting1.getId());
 
         //then
         assertThat(output).contains("입장");
@@ -182,11 +181,11 @@ class QuingServiceImplTest {
         Store store = dummyDataMaker.store();
         Waiting waiting1 = dummyDataMaker.waiting(user1, store);
 
-        when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
+        when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting1));
         when(messageSender.send(any(), any())).thenCallRealMethod();
 
         //when
-        quingService.sendRegisterMessage(1L);
+        quingService.sendRegisterMessage(waiting1.getId());
 
         //then
         assertThat(output).contains("등록");
@@ -202,7 +201,7 @@ class QuingServiceImplTest {
         when(waitingRepository.findById(anyLong())).thenReturn(Optional.ofNullable(waiting1));
 
         //when
-        WaitingResponse waitingResponse = quingService.doneWaiting(1L);
+        WaitingResponse waitingResponse = quingService.doneWaiting(waiting1.getId());
         log.debug("waitingResponse = " + waitingResponse);
 
         //then
@@ -219,7 +218,7 @@ class QuingServiceImplTest {
         when(waitingRepository.findById(anyLong())).thenReturn(Optional.ofNullable(waiting1));
 
         //when
-        WaitingResponse waitingResponse = quingService.cancelWaiting(1L);
+        WaitingResponse waitingResponse = quingService.cancelWaiting(waiting1.getId());
         log.debug("waitingResponse = " + waitingResponse);
 
         //then
