@@ -41,10 +41,6 @@ class ReviewServiceImplTest {
 
     DummyDataMaker dummyDataMaker = DummyDataMaker.builder().withId(true).build();
 
-    @BeforeEach
-    void init() {
-        dummyDataMaker.init();
-    }
 
     @Test
     void create_성공() {

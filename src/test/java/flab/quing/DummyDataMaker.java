@@ -15,14 +15,6 @@ public class DummyDataMaker {
     boolean withId;
     long userCount, storeCount, waitingCount, reviewCount, storeManagerCount;
 
-    public void init() {
-        userCount = 0;
-        storeCount = 0;
-        waitingCount = 0;
-        reviewCount = 0;
-        storeManagerCount = 0;
-    }
-
     @Builder
     public DummyDataMaker(boolean withId) {
         this.withId = withId;

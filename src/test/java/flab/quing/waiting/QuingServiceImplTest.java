@@ -49,11 +49,6 @@ class QuingServiceImplTest {
 
     DummyDataMaker dummyDataMaker = DummyDataMaker.builder().withId(true).build();
 
-    @BeforeEach
-    void init() {
-        dummyDataMaker.init();
-    }
-
     @Test
     void append() {
         //given
