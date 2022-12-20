@@ -32,48 +32,50 @@ class ReviewRepositoryTest {
     @Autowired
     WaitingRepository waitingRepository;
 
+    DummyDataMaker dummyDataMaker = DummyDataMaker.builder().withId(false).build();
+
     @Test
     void findTopByWaitingIdOrderByIdDesc() {
-        User user = userRepository.save(DummyDataMaker.user());
-        Store store = storeRepository.save(DummyDataMaker.store());
-        Waiting waiting = waitingRepository.save(DummyDataMaker.waiting(user, store));
+        User user = userRepository.save(dummyDataMaker.user());
+        Store store = storeRepository.save(dummyDataMaker.store());
+        Waiting waiting = waitingRepository.save(dummyDataMaker.waiting(user, store));
 
-        Review review1 = reviewRepository.save(DummyDataMaker.review(user, waiting));
+        Review review1 = reviewRepository.save(dummyDataMaker.review(user, waiting));
         log.info("review1 = " + review1);
 
-        Review result1 = reviewRepository.findTopByWaitingIdOrderByIdDesc(waiting.getId()).get();
+        Review result1 = reviewRepository.findTopByWaitingIdOrderByIdDesc(waiting.getId()).orElseThrow(NoSuchReviewException::new);
         assertThat(result1.getMessage()).isEqualTo(result1.getMessage());
 
         result1.hide();
 
-        Review review2 = DummyDataMaker.review(user, waiting, "review2");
+        Review review2 = dummyDataMaker.review(user, waiting, "review2");
         reviewRepository.save(review2);
 
-        Review result2 = reviewRepository.findTopByWaitingIdOrderByIdDesc(waiting.getId()).get();
+        Review result2 = reviewRepository.findTopByWaitingIdOrderByIdDesc(waiting.getId()).orElseThrow(NoSuchReviewException::new);
         assertThat(result2.getMessage()).isEqualTo(review2.getMessage());
     }
 
     @Test
     void findAllByWaitingStoreIdAndDeletedIsFalse() {
         //given
-        User user1 = userRepository.save(DummyDataMaker.user());
-        User user2 = userRepository.save(DummyDataMaker.user());
+        User user1 = userRepository.save(dummyDataMaker.user());
+        User user2 = userRepository.save(dummyDataMaker.user());
 
-        Store store = storeRepository.save(DummyDataMaker.store());
+        Store store = storeRepository.save(dummyDataMaker.store());
 
-        Waiting waiting1 = waitingRepository.save(DummyDataMaker.waiting(user1, store));
-        Waiting waiting2 = waitingRepository.save(DummyDataMaker.waiting(user2, store));
+        Waiting waiting1 = waitingRepository.save(dummyDataMaker.waiting(user1, store));
+        Waiting waiting2 = waitingRepository.save(dummyDataMaker.waiting(user2, store));
 
-        Review review1 = reviewRepository.save(DummyDataMaker.review(user1, waiting1, "review1"));
+        Review review1 = reviewRepository.save(dummyDataMaker.review(user1, waiting1, "review1"));
         log.info("review1 = " + review1);
 
-        Review review2 = reviewRepository.save(DummyDataMaker.review(user2, waiting2, "review2"));
+        Review review2 = reviewRepository.save(dummyDataMaker.review(user2, waiting2, "review2"));
         log.info("review2 = " + review2.getDeleted_at());
 
         review2.hide();
         log.info("review2 = " + review2.getDeleted_at());
 
-        Review review3 = reviewRepository.save(DummyDataMaker.review(user2, waiting2, "review3"));
+        Review review3 = reviewRepository.save(dummyDataMaker.review(user2, waiting2, "review3"));
         log.info("review3 = " + review3);
 
         storeRepository.findAll().forEach(o-> log.info(o.getId().toString()+" "+o));

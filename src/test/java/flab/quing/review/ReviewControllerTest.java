@@ -42,17 +42,15 @@ class ReviewControllerTest {
     @Autowired
     StoreManagerRepository storeManagerRepository;
 
+    DummyDataMaker dummyDataMaker = DummyDataMaker.builder().withId(false).build();
+
 
     @Test
     void test() {
-        User user = userRepository.save(DummyDataMaker.user());
-        Store store = storeRepository.save(DummyDataMaker.store());
-        Waiting waiting = waitingRepository.save(DummyDataMaker.waiting(user, store));
-        StoreManager storeManager = storeManagerRepository.save(
-                StoreManager.builder()
-                        .store(store)
-                        .name("스토어매니저")
-                        .build());
+        User user = userRepository.save(dummyDataMaker.user());
+        Store store = storeRepository.save(dummyDataMaker.store());
+        Waiting waiting = waitingRepository.save(dummyDataMaker.waiting(user, store));
+        StoreManager storeManager = storeManagerRepository.save(dummyDataMaker.storeManager(store));
 
         ReviewPostRequest reviewPostRequest = ReviewPostRequest.builder()
                 .rating(10)
@@ -74,9 +72,9 @@ class ReviewControllerTest {
 
         reviewController.deleteReview(user.toResponse(), reviewPostResponse.getId());
 
-        assertThatThrownBy(() -> {
-            reviewController.getReview(reviewPostResponse.getId());
-        }).isInstanceOf(NoSuchReviewException.class);
+        assertThatThrownBy(() ->
+                reviewController.getReview(reviewPostResponse.getId()))
+                .isInstanceOf(NoSuchReviewException.class);
     }
 
 }

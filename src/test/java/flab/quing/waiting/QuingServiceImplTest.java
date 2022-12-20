@@ -9,7 +9,6 @@ import flab.quing.waiting.dto.WaitingRequest;
 import flab.quing.waiting.dto.WaitingResponse;
 import flab.quing.waiting.exception.DuplicateWaitingException;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -47,21 +46,18 @@ class QuingServiceImplTest {
     @Mock
     ConsoleLogMessageSender messageSender;
 
-    @BeforeEach
-    void beforeEach() {
-        DummyDataMaker.init();
-    }
+    DummyDataMaker dummyDataMaker = DummyDataMaker.builder().withId(true).build();
 
     @Test
     void append() {
         //given
-        User user = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
+        User user = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
         WaitingRequest waitingRequest = WaitingRequest.builder()
                 .userId(user.getId())
                 .storeId(store.getId())
                 .build();
-        Waiting waiting = DummyDataMaker.waiting(user, store);
+        Waiting waiting = dummyDataMaker.waiting(user, store);
 
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(storeRepository.findById(anyLong())).thenReturn(Optional.of(store));
@@ -73,19 +69,19 @@ class QuingServiceImplTest {
         log.debug("waitingResponse = " + waitingResponse);
 
         //then
-        assertThat(waitingResponse.getId()).isEqualTo(1);
+        assertThat(waitingResponse.getId()).isEqualTo(waiting.getId());
     }
 
     @Test
     void append_exist_throw_exception() {
         //given
-        User user = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
+        User user = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
         WaitingRequest waitingRequest = WaitingRequest.builder()
                 .userId(user.getId())
                 .storeId(store.getId())
                 .build();
-        Waiting waiting = DummyDataMaker.waiting(user, store);
+        Waiting waiting = dummyDataMaker.waiting(user, store);
 
         when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(storeRepository.findById(anyLong())).thenReturn(Optional.of(store));
@@ -93,27 +89,28 @@ class QuingServiceImplTest {
 
         //when
         //then
-        assertThatThrownBy(() -> {
-            quingService.append(waitingRequest);
-        }).isInstanceOf(DuplicateWaitingException.class);
+        assertThatThrownBy(() ->
+                quingService.append(waitingRequest))
+                .isInstanceOf(DuplicateWaitingException.class);
+
     }
 
     @Test
     void getList() {
         //given
-        User user1 = DummyDataMaker.user();
-        User user2 = DummyDataMaker.user();
-        User user3 = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
-        Waiting waiting2 = DummyDataMaker.waiting(user2, store);
-        Waiting waiting3 = DummyDataMaker.waiting(user3, store);
+        User user1 = dummyDataMaker.user();
+        User user2 = dummyDataMaker.user();
+        User user3 = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting1 = dummyDataMaker.waiting(user1, store);
+        Waiting waiting2 = dummyDataMaker.waiting(user2, store);
+        Waiting waiting3 = dummyDataMaker.waiting(user3, store);
 
-        when(waitingRepository.findAllByStoreIdAndWaitingQueueStatusIs(anyLong(),any(WaitingQueueStatus.class)))
-                .thenReturn(List.of(waiting1,waiting2,waiting3));
+        when(waitingRepository.findAllByStoreIdAndWaitingQueueStatusIs(anyLong(), any(WaitingQueueStatus.class)))
+                .thenReturn(List.of(waiting1, waiting2, waiting3));
 
         //when
-        List<WaitingResponse> result = quingService.getList(1L);
+        List<WaitingResponse> result = quingService.getList(store.getId());
 
         //then
         assertThat(result.size()).isEqualTo(3);
@@ -123,20 +120,20 @@ class QuingServiceImplTest {
     @Test
     void countForward() {
         //given
-        User user1 = DummyDataMaker.user();
-        User user2 = DummyDataMaker.user();
-        User user3 = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
-        Waiting waiting2 = DummyDataMaker.waiting(user2, store);
-        Waiting waiting3 = DummyDataMaker.waiting(user3, store);
+        User user1 = dummyDataMaker.user();
+        User user2 = dummyDataMaker.user();
+        User user3 = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting1 = dummyDataMaker.waiting(user1, store);
+        Waiting waiting2 = dummyDataMaker.waiting(user2, store);
+        Waiting waiting3 = dummyDataMaker.waiting(user3, store);
 
-        when(waitingRepository.findById(3L)).thenReturn(Optional.of(waiting3));
-        when(waitingRepository.findAllByStoreIdAndWaitingQueueStatusIs(anyLong(),any(WaitingQueueStatus.class)))
-                .thenReturn(List.of(waiting1,waiting2,waiting3));
+        when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting3));
+        when(waitingRepository.findAllByStoreIdAndWaitingQueueStatusIs(anyLong(), any(WaitingQueueStatus.class)))
+                .thenReturn(List.of(waiting1, waiting2, waiting3));
 
         //when
-        int index = quingService.countForward(3L);
+        int index = quingService.countForward(waiting3.getId());
 
         //then
         assertThat(index).isEqualTo(2);
@@ -145,15 +142,15 @@ class QuingServiceImplTest {
     @Test
     void sendMessage(CapturedOutput output) {
         //given
-        User user1 = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
+        User user1 = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting1 = dummyDataMaker.waiting(user1, store);
 
-        when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
-        when(messageSender.send(any(),any())).thenCallRealMethod();
+        when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting1));
+        when(messageSender.send(any(), any())).thenCallRealMethod();
 
         //when
-        quingService.sendMessage(1L, "test");
+        quingService.sendMessage(waiting1.getId(), "test");
 
         //then
         assertThat(output).contains("test");
@@ -162,15 +159,15 @@ class QuingServiceImplTest {
     @Test
     void sendEnterMessage(CapturedOutput output) {
         //given
-        User user1 = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
+        User user1 = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting1 = dummyDataMaker.waiting(user1, store);
 
-        when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
-        when(messageSender.send(any(),any())).thenCallRealMethod();
+        when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting1));
+        when(messageSender.send(any(), any())).thenCallRealMethod();
 
         //when
-        quingService.sendEnterMessage(1L);
+        quingService.sendEnterMessage(waiting1.getId());
 
         //then
         assertThat(output).contains("입장");
@@ -180,15 +177,15 @@ class QuingServiceImplTest {
     @Test
     void sendRegisterMessage(CapturedOutput output) {
         //given
-        User user1 = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
+        User user1 = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting1 = dummyDataMaker.waiting(user1, store);
 
-        when(waitingRepository.findById(1L)).thenReturn(Optional.of(waiting1));
-        when(messageSender.send(any(),any())).thenCallRealMethod();
+        when(waitingRepository.findById(anyLong())).thenReturn(Optional.of(waiting1));
+        when(messageSender.send(any(), any())).thenCallRealMethod();
 
         //when
-        quingService.sendRegisterMessage(1L);
+        quingService.sendRegisterMessage(waiting1.getId());
 
         //then
         assertThat(output).contains("등록");
@@ -197,14 +194,14 @@ class QuingServiceImplTest {
     @Test
     void doneWaiting() {
         //given
-        User user1 = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
+        User user1 = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting1 = dummyDataMaker.waiting(user1, store);
 
         when(waitingRepository.findById(anyLong())).thenReturn(Optional.ofNullable(waiting1));
 
         //when
-        WaitingResponse waitingResponse = quingService.doneWaiting(1L);
+        WaitingResponse waitingResponse = quingService.doneWaiting(waiting1.getId());
         log.debug("waitingResponse = " + waitingResponse);
 
         //then
@@ -214,14 +211,14 @@ class QuingServiceImplTest {
     @Test
     void cancelWaiting() {
         //given
-        User user1 = DummyDataMaker.user();
-        Store store = DummyDataMaker.store();
-        Waiting waiting1 = DummyDataMaker.waiting(user1, store);
+        User user1 = dummyDataMaker.user();
+        Store store = dummyDataMaker.store();
+        Waiting waiting1 = dummyDataMaker.waiting(user1, store);
 
         when(waitingRepository.findById(anyLong())).thenReturn(Optional.ofNullable(waiting1));
 
         //when
-        WaitingResponse waitingResponse = quingService.cancelWaiting(1L);
+        WaitingResponse waitingResponse = quingService.cancelWaiting(waiting1.getId());
         log.debug("waitingResponse = " + waitingResponse);
 
         //then
