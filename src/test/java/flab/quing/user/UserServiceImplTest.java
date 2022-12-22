@@ -60,7 +60,7 @@ class UserServiceImplTest {
         UserResponse result = userService.signUp(userRequest);
 
         //then
-        assertThat(result.getUserId()).isEqualTo(1L);
+        assertThat(result.getUserId()).isEqualTo(3L);
     }
 
     @Test
