@@ -13,7 +13,7 @@ Swagger : http://quing.shop/swagger-ui/index.html
 # 설계
 
 ## 서비스 구성 다이어그램
-![image](https://user-images.githubusercontent.com/22807730/208409687-58cd84fd-21e3-4c55-9664-6b5a489c6a55.png)
+![image](https://user-images.githubusercontent.com/22807730/208712246-ccf923c1-8d35-4968-95c8-9e1ef2d6f550.png)
 
 ## API Server 구성 다이어그램
 ![component](https://user-images.githubusercontent.com/22807730/191471325-862134f8-6d8f-4062-9b12-ecd541a6323a.png)
