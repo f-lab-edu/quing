@@ -13,3 +13,7 @@ drop table if exists waiting;
 drop table if exists store;
 
 drop table if exists users;
+
+DROP TABLE IF EXISTS SPRING_SESSION_ATTRIBUTES;
+
+DROP TABLE IF EXISTS SPRING_SESSION;
