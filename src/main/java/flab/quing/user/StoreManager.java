@@ -31,15 +31,23 @@ public class StoreManager extends BaseEntity {
     private String name;
 
     @OneToOne
+    @Setter
     private Store store;
 
     public StoreManagerResponse toResponse() {
+        Long storeId = null;
+        if (store != null) {
+            storeId = store.getId();
+        }
         StoreManagerResponse storeManagerResponse = StoreManagerResponse.builder()
+                .id(this.getId())
                 .loginId(loginId)
                 .phoneNumber(phoneNumber)
                 .name(name)
-                .storeId(store.getId())
+                .storeId(storeId)
                 .build();
+
         return storeManagerResponse;
     }
+
 }
