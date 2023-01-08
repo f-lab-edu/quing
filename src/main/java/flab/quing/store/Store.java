@@ -1,9 +1,8 @@
 package flab.quing.store;
 
+import flab.quing.entity.BaseEntity;
 import flab.quing.store.dto.StoreRequest;
 import flab.quing.store.dto.StoreResponse;
-import flab.quing.entity.BaseEntity;
-import flab.quing.user.User;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
 
 @Data
 @Setter(AccessLevel.NONE)
@@ -21,9 +19,6 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 @Entity
 public class Store extends BaseEntity {
-
-    @OneToOne
-    private User user;
 
     private String name;
 
@@ -39,7 +34,6 @@ public class Store extends BaseEntity {
 
     public StoreResponse toResponse() {
         StoreResponse storeResponse = StoreResponse.builder()
-                .userId(user.getId())
                 .storeId(getId())
                 .name(name)
                 .phoneNumber(phoneNumber)

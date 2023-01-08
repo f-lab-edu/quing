@@ -2,11 +2,15 @@ package flab.quing.store;
 
 import flab.quing.store.dto.MenuRequest;
 import flab.quing.store.dto.MenuResponse;
+import flab.quing.store.dto.StoreAddRequest;
 import flab.quing.store.dto.StoreRequest;
 import flab.quing.store.dto.StoreResponse;
+import flab.quing.user.dto.StoreManagerResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import java.util.List;
 
@@ -26,15 +31,20 @@ public class StoreController {
 
     private final StoreService storeService;
 
-    @GetMapping("/list")
-    public ResponseEntity<List<StoreResponse>> getStoreList(@RequestParam("name") String name) {
-        List<StoreResponse> storeList = storeService.getStoreList(name);
-
+    @GetMapping
+    public ResponseEntity<List<StoreResponse>> getStoreList() {
+        List<StoreResponse> storeList = storeService.getStoreList();
         return ResponseEntity.ok(storeList);
     }
 
     @PostMapping
-    public ResponseEntity<StoreResponse> addStore(@RequestBody StoreRequest storeRequest) {
+    public ResponseEntity<StoreResponse> addStore(
+            @Parameter(hidden = true)
+            @SessionAttribute(name = "AUTH_STORE")
+            StoreManagerResponse storeManagerResponse,
+            @RequestBody StoreAddRequest storeAddRequest
+    ) {
+        StoreRequest storeRequest = StoreRequest.of(storeManagerResponse.getId(), storeAddRequest);
         StoreResponse storeResponse = storeService.addStore(storeRequest);
 
         return ResponseEntity.ok(storeResponse);
@@ -47,14 +57,14 @@ public class StoreController {
         return ResponseEntity.ok(storeResponse);
     }
 
-    @PatchMapping
-    public ResponseEntity<StoreResponse> updateStore(@RequestBody StoreRequest storeRequest) {
-        StoreResponse storeResponse = storeService.updateStore(storeRequest);
+    @PatchMapping("/{storeId}")
+    public ResponseEntity<StoreResponse> updateStore(@PathVariable("storeId") Long storeId, @RequestBody StoreRequest storeRequest) {
+        StoreResponse storeResponse = storeService.updateStore(storeId, storeRequest);
 
         return ResponseEntity.ok(storeResponse);
     }
 
-    @PatchMapping("/{storeId}")
+    @DeleteMapping("/{storeId}")
     public ResponseEntity<StoreResponse> hideStore(@PathVariable("storeId") Long storeId) {
         StoreResponse storeResponse = storeService.hideStore(storeId);
 
