@@ -9,13 +9,13 @@ import java.util.List;
 
 public interface StoreService {
 
-    List<StoreResponse> getStoreList(String name);
+    List<StoreResponse> getStoreList();
 
     StoreResponse addStore(StoreRequest storeRequest);
 
     StoreResponse getStore(long storeId);
 
-    StoreResponse updateStore(StoreRequest storeRequest);
+    StoreResponse updateStore(long storeId, StoreRequest storeRequest);
 
     StoreResponse hideStore(long storeId);
 

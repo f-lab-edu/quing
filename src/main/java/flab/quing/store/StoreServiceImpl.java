@@ -6,9 +6,9 @@ import flab.quing.store.dto.StoreRequest;
 import flab.quing.store.dto.StoreResponse;
 import flab.quing.store.exception.NoSuchMenuException;
 import flab.quing.store.exception.NoSuchStoreException;
-import flab.quing.store.exception.NoSuchUserException;
-import flab.quing.user.User;
-import flab.quing.user.UserRepository;
+import flab.quing.user.StoreManager;
+import flab.quing.user.StoreManagerRepository;
+import flab.quing.user.exception.NoSuchStoreManagerException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,11 +22,11 @@ public class StoreServiceImpl implements StoreService {
 
     private final StoreRepository storeRepository;
     private final MenuRepository menuRepository;
-    private final UserRepository userRepository;
+    private final StoreManagerRepository storeManagerRepository;
 
     @Override
-    public List<StoreResponse> getStoreList(String name) {
-        return storeRepository.findAllByName(name)
+    public List<StoreResponse> getStoreList() {
+        return storeRepository.findAll()
                 .stream()
                 .map(Store::toResponse)
                 .collect(Collectors.toList());
@@ -43,10 +43,9 @@ public class StoreServiceImpl implements StoreService {
     @Transactional
     @Override
     public StoreResponse addStore(StoreRequest storeRequest) {
-        User user = userRepository.findById(storeRequest.getUserId())
-                .orElseThrow(NoSuchUserException::new);
+        StoreManager storeManager = storeManagerRepository.findById(storeRequest.getStoreManagerId())
+                .orElseThrow(NoSuchStoreManagerException::new);
         Store addStore = Store.builder()
-                .user(user)
                 .address(storeRequest.getAddress())
                 .pageLink(storeRequest.getPageLink())
                 .openHours(storeRequest.getOpenHours())
@@ -56,14 +55,15 @@ public class StoreServiceImpl implements StoreService {
                 .build();
 
         Store store = storeRepository.save(addStore);
+        storeManager.setStore(store);
 
         return store.toResponse();
     }
 
     @Transactional
     @Override
-    public StoreResponse updateStore(StoreRequest storeRequest) {
-        Store updateStore = storeRepository.findById(storeRequest.getStoreId())
+    public StoreResponse updateStore(long storeId, StoreRequest storeRequest) {
+        Store updateStore = storeRepository.findById(storeId)
                 .orElseThrow(NoSuchStoreException::new);
         updateStore.update(storeRequest);
         storeRepository.save(updateStore);
