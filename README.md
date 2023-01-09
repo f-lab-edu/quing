@@ -17,7 +17,12 @@ Swagger : http://quing.shop/swagger-ui/index.html
 ![component](https://user-images.githubusercontent.com/22807730/191471325-862134f8-6d8f-4062-9b12-ecd541a6323a.png)
 
 ## 테이블 구조 다이어그램(ERD)
+(설계하면서 작성한 다이어그램)
 ![erd](https://user-images.githubusercontent.com/22807730/191471281-661a34b7-bc23-4539-9451-44cc3e0b7c89.png)
+
+(DB Tool로 생성한 다이어그램)
+<img width="870" alt="image" src="https://user-images.githubusercontent.com/22807730/211319838-07007612-ee8d-4075-b02a-0f7c163bb078.png">
+
 
 
 ## 기능 정의
