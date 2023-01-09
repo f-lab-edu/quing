@@ -1,19 +1,17 @@
-# 🔁 Quing 
+# 🔁 Quing
 큐잉(Queue+ing)은 음식점 대기순서를 관리 해주는 서비스입니다.
 
 Swagger : http://quing.shop/swagger-ui/index.html
 
 # 프로젝트 목표
-- 기술적인 측면에서 실력 성장하기
 - SpringBoot에 대해 공부한것들을 응용해보기
 - API Call을 하는것 만으로 동작이 충분히 예상 되도록 개발하기
-- 협업에 대한 감 익히기
 - 좋은 코드를 만들기 위해 많은 고민을 함께하기
 
 # 설계
 
 ## 서비스 구성 다이어그램
-![image](https://user-images.githubusercontent.com/22807730/208409687-58cd84fd-21e3-4c55-9664-6b5a489c6a55.png)
+![image](https://user-images.githubusercontent.com/22807730/208712246-ccf923c1-8d35-4968-95c8-9e1ef2d6f550.png)
 
 ## API Server 구성 다이어그램
 ![component](https://user-images.githubusercontent.com/22807730/191471325-862134f8-6d8f-4062-9b12-ecd541a6323a.png)
@@ -38,7 +36,7 @@ Swagger : http://quing.shop/swagger-ui/index.html
 - 메뉴 기능 : 매장의 메뉴를 추가/삭제 할 수 있다.
 - 대기줄 확인 : 매장의 대기줄의 상태를 확인한다.
 - 손님 입장 : 매장은 대기중인 손님을 입장시킨다. (상태 : 대기→완료)
-- 손님 대기 취소/복구 : 대기열에 있는 손님을 취소/복구한다. (상태를 취소→대기, 대기→취소 변경)
+- 손님 대기 취소 : 대기열에 있는 손님을 취소한다.
 - 가게 영업시작/영업종료 설정을 할수있다. (영업중이 아닐땐 대기 불가)
 
 ### 줄서기
