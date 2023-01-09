@@ -5,6 +5,7 @@ import flab.quing.user.dto.UserResponse;
 import flab.quing.waiting.dto.WaitingAppendRequest;
 import flab.quing.waiting.dto.WaitingRequest;
 import flab.quing.waiting.dto.WaitingResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,6 +30,7 @@ public class QuingController {
 
     @GetMapping
     List<WaitingResponse> list(
+            @Parameter(hidden = true)
             @SessionAttribute(name = "AUTH_STORE")
             StoreManagerResponse storeManagerResponse
     ) {
@@ -38,8 +40,10 @@ public class QuingController {
     }
 
     @GetMapping("count-forward")
-    long countForward(@SessionAttribute(name = "AUTH_USER")
-                             UserResponse userResponse
+    long countForward(
+            @Parameter(hidden = true)
+            @SessionAttribute(name = "AUTH_USER")
+            UserResponse userResponse
     ) {
         return quingService.countForward(userResponse.getUserId());
     }
@@ -47,6 +51,7 @@ public class QuingController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     WaitingResponse append(
+            @Parameter(hidden = true)
             @SessionAttribute(name = "AUTH_USER")
             UserResponse userResponse,
             @RequestBody WaitingAppendRequest waitingAppendRequest
@@ -65,10 +70,12 @@ public class QuingController {
 
     @PatchMapping
     WaitingResponse doneWaiting(
-            @SessionAttribute(name = "AUTH_USER")
-            UserResponse userResponse
+            @Parameter(hidden = true)
+            @SessionAttribute(name = "AUTH_STORE")
+            StoreManagerResponse storeManagerResponse,
+            long userId
     ) {
-        WaitingResponse waitingResponseByUserId = quingService.getByUserId(userResponse.getUserId());
+        WaitingResponse waitingResponseByUserId = quingService.getByUserId(userId);
 
         return quingService.doneWaiting(waitingResponseByUserId.getId());
     }
@@ -76,6 +83,7 @@ public class QuingController {
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void cancelWaiting(
+            @Parameter(hidden = true)
             @SessionAttribute(name = "AUTH_USER")
             UserResponse userResponse
     ) {

@@ -11,10 +11,10 @@ import java.io.Serializable;
 @Setter(AccessLevel.NONE)
 @Builder
 public class StoreManagerResponse implements Serializable {
-
+    private long id;
     private String loginId;
     private String phoneNumber;
     private String name;
-    private long storeId;
+    private Long storeId;
 
 }

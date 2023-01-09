@@ -18,7 +18,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -67,14 +66,11 @@ class UserServiceImplTest {
     @DisplayName("StoreManager 회원가입 성공")
     void signUp_StoreManager_Success() {
         //given
-        Store store = dummyDataMaker.store();
-
         StoreManager storeManager = StoreManager.builder()
                 .loginId("yuseon")
                 .encryptedPassword(HASHED_PASSWORD)
                 .name("홍길동")
                 .phoneNumber("010-1234-5678")
-                .store(store)
                 .build();
         storeManager.setId(1L);
 
@@ -83,10 +79,8 @@ class UserServiceImplTest {
                 .password(storeManager.getEncryptedPassword())
                 .name(storeManager.getName())
                 .phoneNumber(storeManager.getPhoneNumber())
-                .storeId(1L)
                 .build();
 
-        when(storeRepository.findById(anyLong())).thenReturn(Optional.of(store));
         when(storeManagerRepository.save(any(StoreManager.class))).thenReturn(storeManager);
 
         //when

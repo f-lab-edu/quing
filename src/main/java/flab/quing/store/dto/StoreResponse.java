@@ -10,8 +10,6 @@ import lombok.Setter;
 @Builder
 public class StoreResponse {
 
-    private long userId;
-
     private long storeId;
 
     private String name;

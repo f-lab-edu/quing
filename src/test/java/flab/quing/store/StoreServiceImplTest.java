@@ -4,8 +4,9 @@ import flab.quing.store.dto.MenuRequest;
 import flab.quing.store.dto.MenuResponse;
 import flab.quing.store.dto.StoreRequest;
 import flab.quing.store.dto.StoreResponse;
+import flab.quing.user.StoreManager;
+import flab.quing.user.StoreManagerRepository;
 import flab.quing.user.User;
-import flab.quing.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +32,7 @@ class StoreServiceImplTest {
     StoreRepository storeRepository;
 
     @Mock
-    UserRepository userRepository;
+    StoreManagerRepository storeManagerRepository;
 
     @Mock
     MenuRepository menuRepository;
@@ -40,14 +41,9 @@ class StoreServiceImplTest {
     @DisplayName("스토어 저장 성공")
     void add_Store_Success() {
         //given
-        User user = User.builder()
-                .name("김땡땡")
-                .phoneNumber("010-9999-9999")
-                .build();
-        user.setId(1L);
+        StoreManager storeManager = StoreManager.builder().build();
 
         Store store = Store.builder()
-                .user(user)
                 .name("가게1")
                 .phoneNumber("02-1234-1234")
                 .openStatus("영업중")
@@ -58,7 +54,6 @@ class StoreServiceImplTest {
         store.setId(1L);
 
         StoreRequest storeRequest = StoreRequest.builder()
-                .userId(user.getId())
                 .name("가게1")
                 .phoneNumber("02-1234-1234")
                 .openStatus("영업중")
@@ -67,15 +62,13 @@ class StoreServiceImplTest {
                 .pageLink("https://github.com/f-lab-edu/quing")
                 .build();
 
-        when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
         when(storeRepository.save(any(Store.class))).thenReturn(store);
-        System.out.println("userRepository = " + userRepository.findById(1L).get());
+        when(storeManagerRepository.findById(anyLong())).thenReturn(Optional.ofNullable(storeManager));
 
         //when
         StoreResponse result = storeService.addStore(storeRequest);
 
         //then
-        assertThat(result.getUserId()).isEqualTo(1L);
         assertThat(result.getName()).isEqualTo("가게1");
     }
 
@@ -90,7 +83,6 @@ class StoreServiceImplTest {
         user.setId(1L);
 
         Store store = Store.builder()
-                .user(user)
                 .name("가게1")
                 .phoneNumber("02-1234-1234")
                 .openStatus("영업중")
@@ -155,7 +147,6 @@ class StoreServiceImplTest {
         user.setId(1L);
 
         Store store = Store.builder()
-                .user(user)
                 .name("가게1")
                 .phoneNumber("02-1234-1234")
                 .openStatus("영업중")
@@ -166,8 +157,6 @@ class StoreServiceImplTest {
         store.setId(1L);
 
         StoreRequest storeRequest = StoreRequest.builder()
-                .userId(user.getId())
-                .storeId(store.getId())
                 .name("가게3")
                 .phoneNumber("02-1234-1234")
                 .openStatus("영업중")
@@ -179,7 +168,7 @@ class StoreServiceImplTest {
         when(storeRepository.findById(1L)).thenReturn(Optional.of(store));
 
         //when
-        StoreResponse result = storeService.updateStore(storeRequest);
+        StoreResponse result = storeService.updateStore(1L, storeRequest);
 
         //then
         assertThat(result.getName()).isEqualTo("가게3");
@@ -196,7 +185,6 @@ class StoreServiceImplTest {
         user.setId(1L);
 
         Store store = Store.builder()
-                .user(user)
                 .name("가게1")
                 .phoneNumber("02-1234-1234")
                 .openStatus("영업중")

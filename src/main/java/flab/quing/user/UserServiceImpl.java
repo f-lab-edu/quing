@@ -1,8 +1,5 @@
 package flab.quing.user;
 
-import flab.quing.store.Store;
-import flab.quing.store.StoreRepository;
-import flab.quing.store.exception.NoSuchStoreException;
 import flab.quing.store.exception.NoSuchUserException;
 import flab.quing.user.dto.StoreManagerRequest;
 import flab.quing.user.dto.StoreManagerResponse;
@@ -25,8 +22,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final StoreManagerRepository storeManagerRepository;
-
-    private final StoreRepository storeRepository;
 
     @Transactional
     @Override
@@ -64,15 +59,11 @@ public class UserServiceImpl implements UserService {
     public StoreManagerResponse storeSignUp(StoreManagerRequest storeManagerRequest) {
         checkStoreManagerDuplication(storeManagerRequest.getLoginId());
 
-        Store store = storeRepository.findById(storeManagerRequest.getStoreId())
-                .orElseThrow(NoSuchStoreException::new);
-
         StoreManager storeManager = StoreManager.builder()
                 .loginId(storeManagerRequest.getLoginId())
                 .encryptedPassword(CustomPasswordEncoder.hashPassword(storeManagerRequest.getPassword()))
                 .name(storeManagerRequest.getName())
                 .phoneNumber(storeManagerRequest.getPhoneNumber())
-                .store(store)
                 .build();
         StoreManager createdStoreManager = storeManagerRepository.save(storeManager);
         return createdStoreManager.toResponse();

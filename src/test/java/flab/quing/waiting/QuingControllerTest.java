@@ -7,6 +7,7 @@ import flab.quing.user.StoreManager;
 import flab.quing.user.StoreManagerRepository;
 import flab.quing.user.User;
 import flab.quing.user.UserRepository;
+import flab.quing.user.dto.StoreManagerResponse;
 import flab.quing.waiting.dto.WaitingAppendRequest;
 import flab.quing.waiting.dto.WaitingResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -126,6 +127,7 @@ class QuingControllerTest {
     @Test
     void 입장_완료() {
         //given
+        StoreManagerResponse storeManagerResponse = StoreManagerResponse.builder().build();
         Store store = storeRepository.save(dummyDataMaker.store());
         User user = userRepository.save(dummyDataMaker.user());
 
@@ -136,7 +138,7 @@ class QuingControllerTest {
         WaitingResponse waitingResponse = quingController.append(user.toResponse(), waitingAppendRequest);
 
         //when
-        WaitingResponse doneWaiting = quingController.doneWaiting(user.toResponse());
+        WaitingResponse doneWaiting = quingController.doneWaiting(storeManagerResponse, user.getId());
 
         List<Waiting> all = waitingRepository.findAll();
 
